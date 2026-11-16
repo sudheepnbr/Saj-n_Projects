@@ -4,6 +4,8 @@ This is the **ready-to-run** entry point. Use the branch
 `cursor/saml-mfa-idp-phases-3-7-04b9` (or [PR #2](https://github.com/sudheepnbr/Saj-n_Projects/pull/2)).
 `main` is architecture only.
 
+**Production cutover** (HTTPS, PKCS#11, unique secrets): [`PRODUCTION.md`](PRODUCTION.md) and the printable PDF [`docs/OIH-IdP-Setup-Instructions.pdf`](docs/OIH-IdP-Setup-Instructions.pdf).
+
 ## 1. Get the files
 
 **ZIP**

@@ -22,6 +22,8 @@ cd Saj-n_Projects
 
 Then open http://localhost:8080/setup with token `oih-local-setup`.
 
+**Production** (HTTPS, PKCS#11, unique secrets): [`PRODUCTION.md`](PRODUCTION.md) and [`docs/OIH-IdP-Setup-Instructions.pdf`](docs/OIH-IdP-Setup-Instructions.pdf).
+
 ## SAML MFA Identity Provider
 
 Start at [`START.md`](START.md), [`saml-mfa-idp/README.md`](saml-mfa-idp/README.md), and [`saml-mfa-idp/docs/README.md`](saml-mfa-idp/docs/README.md).

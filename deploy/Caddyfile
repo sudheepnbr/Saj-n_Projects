@@ -1,0 +1,21 @@
+{$OIH_PUBLIC_HOST:localhost} {
+	encode gzip
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+		Referrer-Policy no-referrer
+		X-Frame-Options DENY
+	}
+
+	@actuatorNotHealth {
+		path /actuator/*
+		not path /actuator/health /actuator/health/*
+	}
+	respond @actuatorNotHealth 404
+
+	reverse_proxy idp:8080 {
+		header_up X-Forwarded-Proto {scheme}
+		header_up X-Forwarded-Host {host}
+		header_up X-Forwarded-For {remote_host}
+	}
+}
