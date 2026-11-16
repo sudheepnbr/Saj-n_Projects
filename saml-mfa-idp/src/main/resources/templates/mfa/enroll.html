@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Enroll authenticator</title>
+    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+</head>
+<body>
+<main class="card">
+    <h1>Enroll authenticator</h1>
+    <p>Scan this QR code, then enter a code to confirm. Recovery codes are shown once.</p>
+    <p class="flash err" th:if="${error}" th:text="${error}"></p>
+    <img th:if="${qr}" th:src="'data:image/png;base64,' + ${qr}" alt="TOTP QR"/>
+    <p><code th:text="${otpauth}">otpauth</code></p>
+    <ul>
+        <li th:each="c : ${recoveryCodes}" th:text="${c}">code</li>
+    </ul>
+    <form th:action="@{/mfa/enroll}" method="post">
+        <label>Confirmation code
+            <input type="text" name="code" inputmode="numeric" required autocomplete="one-time-code"/>
+        </label>
+        <button type="submit">Confirm</button>
+    </form>
+</main>
+</body>
+</html>

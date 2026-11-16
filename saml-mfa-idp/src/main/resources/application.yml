@@ -14,6 +14,10 @@ spring:
       hibernate.jdbc.time_zone: UTC
   flyway:
     enabled: true
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: never
   datasource:
     hikari:
       maximum-pool-size: 10
@@ -34,11 +38,14 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,prometheus
   endpoint:
     health:
       probes:
         enabled: true
+      group:
+        readiness:
+          include: readinessState,hsm
 
 idp:
   display-name: OIH Local Identity Provider
@@ -65,3 +72,18 @@ idp:
     token: ${OIH_SETUP_TOKEN:}
   mfa:
     enabled: false
+    envelope-key: ${OIH_TOTP_WRAP_KEY:}
+  entity-id: ${OIH_ENTITY_ID:https://idp.example.org/saml2/idp/metadata}
+  base-url: ${OIH_BASE_URL:http://127.0.0.1:8080}
+  crypto:
+    token: software
+    library: ${OIH_HSM_LIBRARY:/usr/lib/x86_64-linux-gnu/softhsm/libsofthsm2.so}
+    pin: ${OIH_HSM_PIN:}
+    key-size: 3072
+  saml:
+    assertion-ttl: 5m
+    clock-skew: 2m
+    request-max-age: 10m
+    max-body-bytes: 262144
+    want-authn-requests-signed: true
+    partial-logout-mode: SUCCESS

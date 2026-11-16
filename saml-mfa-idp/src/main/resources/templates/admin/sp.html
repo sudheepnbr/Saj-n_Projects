@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Service providers</title>
+    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+</head>
+<body>
+<header class="bar">
+    <div class="brand" th:text="${displayName}">OIH Local Identity Provider</div>
+    <nav>
+        <a th:href="@{/account}">Account</a>
+        <a th:href="@{/admin}">Users</a>
+        <a th:href="@{/admin/sp}">Service providers</a>
+        <a th:href="@{/admin/keys}">Signing keys</a>
+        <form class="inline" th:action="@{/logout}" method="post">
+            <button type="submit">Sign out</button>
+        </form>
+    </nav>
+</header>
+<main class="wrap">
+    <p class="flash ok" th:if="${info}" th:text="${info}"></p>
+    <h1>Service providers</h1>
+    <section class="card">
+        <h2>Register SP</h2>
+        <p>ACS URLs are allow-listed exactly. Unregistered issuers never receive an assertion.</p>
+        <form th:action="@{/admin/sp}" method="post">
+            <label>Entity ID <input type="url" name="entityId" required/></label>
+            <label>Display name <input type="text" name="displayName" required/></label>
+            <label>ACS (HTTP-POST) <input type="url" name="acs" required/></label>
+            <label>SLO (HTTP-POST) <input type="url" name="slo"/></label>
+            <label><input type="checkbox" name="wantSigned" value="true"/> Require signed AuthnRequest</label>
+            <label><input type="checkbox" name="encrypt" value="true"/> Encrypt assertions (needs SP encryption cert)</label>
+            <button type="submit">Register</button>
+        </form>
+    </section>
+    <table>
+        <thead>
+        <tr>
+            <th>Entity ID</th>
+            <th>Name</th>
+            <th>Enabled</th>
+            <th>Signed AuthnRequest</th>
+            <th>Encrypt</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sp : ${sps}">
+            <td th:text="${sp.entityId}">https://sp</td>
+            <td th:text="${sp.displayName}">SP</td>
+            <td th:text="${sp.enabled}">true</td>
+            <td th:text="${sp.wantAuthnRequestsSigned}">false</td>
+            <td th:text="${sp.encryptAssertions}">false</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

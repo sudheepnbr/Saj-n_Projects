@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Continue</title>
+</head>
+<body onload="document.forms[0].submit()">
+<form method="post" th:attr="action=${acs}">
+    <input type="hidden" name="SAMLResponse" th:value="${samlResponse}"/>
+    <input type="hidden" name="RelayState" th:if="${relayState}" th:value="${relayState}"/>
+    <noscript><button type="submit">Continue</button></noscript>
+</form>
+</body>
+</html>

@@ -14,3 +14,9 @@ server:
 idp:
   setup:
     token: ${OIH_SETUP_TOKEN}
+  crypto:
+    token: pkcs11
+    library: ${OIH_HSM_LIBRARY:/usr/lib/x86_64-linux-gnu/softhsm/libsofthsm2.so}
+    pin: ${OIH_HSM_PIN}
+  mfa:
+    envelope-key: ${OIH_TOTP_WRAP_KEY}

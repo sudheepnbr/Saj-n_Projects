@@ -11,7 +11,9 @@
     <div class="brand" th:text="${displayName}">OIH Local Identity Provider</div>
     <nav>
         <a th:href="@{/account}">Account</a>
-        <a th:href="@{/admin}">Admin</a>
+        <a th:href="@{/admin}">Users</a>
+        <a th:href="@{/admin/sp}">Service providers</a>
+        <a th:href="@{/admin/keys}">Signing keys</a>
         <form class="inline" th:action="@{/logout}" method="post">
             <button type="submit">Sign out</button>
         </form>

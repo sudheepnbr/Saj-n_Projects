@@ -12,6 +12,9 @@
     <nav>
         <a th:href="@{/account}">Account</a>
         <a th:href="@{/admin}">Admin</a>
+        <form class="inline" th:action="@{/account/logout-global}" method="post">
+            <button type="submit">Sign out everywhere</button>
+        </form>
         <form class="inline" th:action="@{/logout}" method="post">
             <button type="submit">Sign out</button>
         </form>

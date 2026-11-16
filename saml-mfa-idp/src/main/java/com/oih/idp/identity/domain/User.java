@@ -179,6 +179,11 @@ public class User {
         return mfaEnabled;
     }
 
+    public void setMfaEnabled(boolean mfaEnabled) {
+        this.mfaEnabled = mfaEnabled;
+        touch();
+    }
+
     public int getFailedLogins() {
         return failedLogins;
     }

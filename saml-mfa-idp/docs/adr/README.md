@@ -12,3 +12,4 @@
 | [0008](0008-csrf-and-saml-bindings.md) | CSRF except compensated SAML POST | Accepted |
 | [0009](0009-version-baseline.md) | Pinned GA versions | Accepted |
 | [0010](0010-encryption-interop.md) | Encryption algorithm policy | Accepted |
+| [0011](0011-xml-security-runtime.md) | Santuario XML security runtime; OpenSAML remains the architecture pin | Accepted |

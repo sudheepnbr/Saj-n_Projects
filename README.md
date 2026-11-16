@@ -8,13 +8,13 @@ All work for these projects stays in this repository.
 
 | Path | Project | Status |
 | ---- | ------- | ------ |
-| [`saml-mfa-idp/`](saml-mfa-idp/) | Production-grade **local-identity SAML 2.0 Identity Provider** (Java 25, Spring Boot 4.1, OpenSAML 5, SoftHSM2, TOTP MFA) | Phase 2 — core identity platform |
+| [`saml-mfa-idp/`](saml-mfa-idp/) | Production-grade **local-identity SAML 2.0 Identity Provider** (Java 25, Spring Boot 4.1, SoftHSM2, TOTP MFA, SAML SSO/SLO) | Phases 1–7 |
 
 ## SAML MFA Identity Provider
 
 Start at [`saml-mfa-idp/README.md`](saml-mfa-idp/README.md) and [`saml-mfa-idp/docs/README.md`](saml-mfa-idp/docs/README.md).
 
-Phase 1 architecture is on `main`. Phase 2 adds the runnable identity platform (users, Argon2id, lockout, admin/account consoles) under `saml-mfa-idp/`. SAML, HSM, and TOTP are later phases.
+Phase 1 architecture is on `main`. Later phases add identity, HSM signing, TOTP, SAML SSO/SLO, and production operations under `saml-mfa-idp/`.
 
 ## License
 

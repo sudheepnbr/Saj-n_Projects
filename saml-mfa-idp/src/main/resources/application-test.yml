@@ -19,3 +19,11 @@ idp:
     argon2-memory-kib: 1024
     argon2-iterations: 1
     min-length: 12
+  mfa:
+    enabled: false
+    envelope-key: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+  crypto:
+    token: software
+    key-size: 2048
+  entity-id: https://idp.example.test/saml2/idp/metadata
+  base-url: http://localhost

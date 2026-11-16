@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Signing keys</title>
+    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+</head>
+<body>
+<header class="bar">
+    <div class="brand" th:text="${displayName}">OIH Local Identity Provider</div>
+    <nav>
+        <a th:href="@{/account}">Account</a>
+        <a th:href="@{/admin}">Users</a>
+        <a th:href="@{/admin/sp}">Service providers</a>
+        <a th:href="@{/admin/keys}">Signing keys</a>
+        <form class="inline" th:action="@{/logout}" method="post">
+            <button type="submit">Sign out</button>
+        </form>
+    </nav>
+</header>
+<main class="wrap">
+    <h1>Signing keys</h1>
+    <form th:action="@{/admin/keys/next}" method="post"><button type="submit">Generate NEXT</button></form>
+    <form th:action="@{/admin/keys/activate}" method="post"><button type="submit">Activate NEXT</button></form>
+    <table>
+        <thead>
+        <tr><th>Status</th><th>Label</th><th>Fingerprint</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="k : ${keys}">
+            <td th:text="${k.status}">ACTIVE</td>
+            <td th:text="${k.label}">label</td>
+            <td th:text="${k.fingerprintSha256}">fp</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Authenticator</title>
+    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+</head>
+<body>
+<main class="card">
+    <h1>Two-factor authentication</h1>
+    <p th:text="${displayName}">OIH</p>
+    <p class="flash err" th:if="${error}" th:text="${error}"></p>
+    <form th:action="@{/mfa/verify}" method="post">
+        <label>Authenticator code
+            <input type="text" name="code" inputmode="numeric" autocomplete="one-time-code" required/>
+        </label>
+        <button type="submit">Verify</button>
+    </form>
+    <form th:action="@{/mfa/verify}" method="post">
+        <input type="hidden" name="recovery" value="true"/>
+        <label>Recovery code
+            <input type="text" name="code" autocomplete="off"/>
+        </label>
+        <button type="submit">Use recovery code</button>
+    </form>
+</main>
+</body>
+</html>
