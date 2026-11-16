@@ -11,6 +11,12 @@ server:
         secure: false
 
 idp:
+  setup:
+    token: oih-local-setup
+  entity-id: http://localhost:8080/saml2/idp/metadata
+  base-url: http://localhost:8080
+  mfa:
+    envelope-key: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   password:
     argon2-memory-kib: 4096
     argon2-iterations: 2

@@ -1,0 +1,44 @@
+# Local full stack: PostgreSQL + OIH Identity Provider
+# Usage:  docker compose up --build
+# App:    http://localhost:8080
+# Setup:  http://localhost:8080/setup   token: oih-local-setup
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: oih
+      POSTGRES_PASSWORD: oih_dev_only
+      POSTGRES_DB: oih_idp
+    ports:
+      - "5432:5432"
+    volumes:
+      - oih-idp-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U oih -d oih_idp"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+
+  idp:
+    build:
+      context: ./saml-mfa-idp
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/oih_idp
+      SPRING_DATASOURCE_USERNAME: oih
+      SPRING_DATASOURCE_PASSWORD: oih_dev_only
+      OIH_SETUP_TOKEN: oih-local-setup
+      OIH_ENTITY_ID: http://localhost:8080/saml2/idp/metadata
+      OIH_BASE_URL: http://localhost:8080
+      # 32 zero bytes, development only — replace before any real deployment
+      OIH_TOTP_WRAP_KEY: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  oih-idp-pg:

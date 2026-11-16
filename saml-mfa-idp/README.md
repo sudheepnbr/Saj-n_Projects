@@ -42,7 +42,9 @@ A standalone, enterprise-ready Identity Provider that:
 | **6** | SLO and SP interoperability notes | **This PR** |
 | **7** | HA, monitoring, backup, production cutover | **This PR** |
 
-Start here: [`docs/README.md`](docs/README.md) · run: [`docs/runbooks/phase2-identity.md`](docs/runbooks/phase2-identity.md) · ops: [`docs/runbooks/operations.md`](docs/runbooks/operations.md)
+**Run this app:** [`../START.md`](../START.md) (`./run.sh` or `docker compose up --build`). First-run token: `oih-local-setup`.
+
+Architecture: [`docs/README.md`](docs/README.md) · ops: [`docs/runbooks/operations.md`](docs/runbooks/operations.md)
 
 ## Verified technology baseline
 
