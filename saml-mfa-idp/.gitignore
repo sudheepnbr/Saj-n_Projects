@@ -1,0 +1,46 @@
+# Build
+target/
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+replay_pid*
+
+# IDE
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets and local runtime
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+*.pfx
+softhsm2.conf
+softhsm/
+tokens/
+*.pin
+
+# Logs and local data
+logs/
+*.log
+data/
+.oidp/
+
+# Test / coverage
+.mvn/wrapper/maven-wrapper.jar
+coverage/
+.nyc_output/
