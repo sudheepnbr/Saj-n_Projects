@@ -8,7 +8,7 @@ All work for these projects stays in this repository.
 
 | Path | Project | Status |
 | ---- | ------- | ------ |
-| [`saml-mfa-idp/`](saml-mfa-idp/) | Production-grade **local-identity SAML 2.0 Identity Provider** (Java 25, Spring Boot 4.1, OpenSAML 5, SoftHSM2, TOTP MFA) | Phase 1 — architecture (this PR) |
+| [`saml-mfa-idp/`](saml-mfa-idp/) | Production-grade **local-identity SAML 2.0 Identity Provider** (Java 25, Spring Boot 4.1, OpenSAML 5, SoftHSM2, TOTP MFA) | Phase 1 — architecture on `main` |
 
 ## SAML MFA Identity Provider
 
