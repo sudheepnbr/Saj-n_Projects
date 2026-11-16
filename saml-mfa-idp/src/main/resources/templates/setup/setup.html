@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>First-run setup</title>
+    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+</head>
+<body>
+<main class="card">
+    <h1>Create the first administrator</h1>
+    <p th:text="${displayName}">OIH Local Identity Provider</p>
+    <p>Use the setup token from <code>OIH_SETUP_TOKEN</code> or the development log.</p>
+    <p class="flash err" th:if="${error}" th:text="${error}"></p>
+    <form th:action="@{/setup}" method="post">
+        <label>Setup token
+            <input type="password" name="token" required autocomplete="off"/>
+        </label>
+        <label>Username
+            <input type="text" name="username" required autocomplete="username"/>
+        </label>
+        <label>Email
+            <input type="email" name="email" required/>
+        </label>
+        <label>First name
+            <input type="text" name="firstName" required/>
+        </label>
+        <label>Last name
+            <input type="text" name="lastName" required/>
+        </label>
+        <label>Password
+            <input type="password" name="password" required autocomplete="new-password"
+                   minlength="12"/>
+        </label>
+        <button type="submit">Create administrator</button>
+    </form>
+</main>
+</body>
+</html>

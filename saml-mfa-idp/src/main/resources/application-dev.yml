@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/oih_idp
+    username: oih
+    password: oih_dev_only
+
+server:
+  servlet:
+    session:
+      cookie:
+        secure: false
+
+idp:
+  password:
+    argon2-memory-kib: 4096
+    argon2-iterations: 2

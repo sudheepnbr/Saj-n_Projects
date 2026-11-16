@@ -25,11 +25,14 @@ Supporting material:
 - [Package structure](reference/package-structure.md)
 - [Maven dependency design](reference/maven-dependency-design.md)
 - [SoftHSM2 runbook](runbooks/softhsm2.md)
+- [Phase 2 identity runbook](runbooks/phase2-identity.md)
 - [ADRs](adr/README.md)
 
 ## Review gate
 
-Phase 2 (Java implementation of the identity platform) must not start until this architecture is approved. Approval means:
+Phase 1 architecture is on `main`. Phase 2 implements the identity platform in this repository. Later phases still require the previous phase’s acceptance criteria.
+
+Phase 1 approval meant:
 
 - the specification review findings are accepted or explicitly deferred
 - the ADRs are accepted
