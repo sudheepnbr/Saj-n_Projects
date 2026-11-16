@@ -47,6 +47,7 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/login",
                                 "/error",
+                                "/error",
                                 "/actuator/health",
                                 "/actuator/health/**",
                                 "/actuator/info",

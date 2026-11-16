@@ -5,6 +5,8 @@ spring:
     password: oih_dev_only
 
 server:
+  error:
+    include-message: always
   servlet:
     session:
       cookie:

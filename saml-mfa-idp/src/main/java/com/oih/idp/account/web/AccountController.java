@@ -14,6 +14,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,14 +43,22 @@ public class AccountController {
     }
 
     @GetMapping
+    @Transactional(readOnly = true)
     public String account(@AuthenticationPrincipal IdpUserPrincipal principal, Model model) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
         User user = identity.requireUser(principal.getUserId());
-        List<ServiceProvider> applications =
-                registry.list().stream().filter(ServiceProvider::isEnabled).toList();
+        List<AppLink> applications = registry.list().stream()
+                .filter(ServiceProvider::isEnabled)
+                .map(sp -> new AppLink(sp.getEntityId(), sp.getDisplayName()))
+                .toList();
         model.addAttribute("displayName", properties.getDisplayName());
-        model.addAttribute("user", user);
+        model.addAttribute("user", new ProfileView(user.getUsername(), user.getEmail(), user.getFirstName(), user.getLastName()));
         model.addAttribute("applications", applications);
-        model.addAttribute("admin", user.hasRole(Role.ADMIN) || user.hasRole(Role.OPERATOR) || user.hasRole(Role.AUDITOR));
+        model.addAttribute(
+                "admin",
+                user.hasRole(Role.ADMIN) || user.hasRole(Role.OPERATOR) || user.hasRole(Role.AUDITOR));
         model.addAttribute("mfaEnrolled", mfa.isEnrolled(user.getId()));
         model.addAttribute("mfaPlatform", mfa.platformEnabled());
         return "account/home";
@@ -62,6 +71,9 @@ public class AccountController {
             @RequestParam @NotBlank String firstName,
             @RequestParam @NotBlank String lastName,
             RedirectAttributes redirect) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
         try {
             identity.updateProfile(principal.getUserId(), email, firstName, lastName);
             redirect.addFlashAttribute("info", "Profile updated.");
@@ -77,6 +89,9 @@ public class AccountController {
             @RequestParam String currentPassword,
             @RequestParam String newPassword,
             RedirectAttributes redirect) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
         try {
             identity.changePassword(principal.getUserId(), currentPassword, newPassword);
             redirect.addFlashAttribute("info", "Password changed.");
@@ -85,4 +100,8 @@ public class AccountController {
         }
         return "redirect:/account";
     }
+
+    public record ProfileView(String username, String email, String firstName, String lastName) {}
+
+    public record AppLink(String entityId, String displayName) {}
 }

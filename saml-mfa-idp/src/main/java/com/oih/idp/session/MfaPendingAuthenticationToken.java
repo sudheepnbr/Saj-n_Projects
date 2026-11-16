@@ -1,11 +1,15 @@
 package com.oih.idp.session;
 
 import com.oih.idp.web.security.IdpUserPrincipal;
+import java.io.Serial;
 import java.util.List;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class MfaPendingAuthenticationToken extends AbstractAuthenticationToken {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public static final String AUTHORITY = "MFA_PENDING";
 

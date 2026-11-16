@@ -97,6 +97,12 @@ class WorkableFlowIT extends PostgresIntegrationTest {
                 .andExpect(redirectedUrl("/account"))
                 .andReturn();
         MockHttpSession session = (MockHttpSession) login.getRequest().getSession();
+        jakarta.servlet.http.Cookie sessionCookie = login.getResponse().getCookie("OIHIDPSESS");
+        if (sessionCookie != null) {
+            mvc.perform(get("/account").cookie(sessionCookie))
+                    .andExpect(status().isOk())
+                    .andExpect(content().string(org.hamcrest.Matchers.containsString("bootstrap")));
+        }
 
         mvc.perform(get("/account").session(session))
                 .andExpect(status().isOk())

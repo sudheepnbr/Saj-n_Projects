@@ -24,14 +24,14 @@
     <p class="flash ok" th:if="${info}" th:text="${info}"></p>
     <p class="flash err" th:if="${error}" th:text="${error}"></p>
     <h1>Your account</h1>
-    <p>Signed in as <strong th:text="${user.username}">user</strong>.</p>
+    <p>Signed in as <strong th:text="${user != null} ? ${user.username} : 'user'">user</strong>.</p>
 
     <section class="card">
         <h2>Applications</h2>
-        <p th:if="${applications.isEmpty()}">No service providers are registered yet.
-            <span th:if="${admin}">Open Admin → Service providers to add one.</span>
+        <p th:if="${applications == null or #lists.isEmpty(applications)}">No service providers are registered yet.
+            <span th:if="${admin}">Open Admin - Service providers to add one.</span>
         </p>
-        <table th:if="${!applications.isEmpty()}">
+        <table th:if="${applications != null and !#lists.isEmpty(applications)}">
             <thead>
             <tr>
                 <th>Application</th>
@@ -65,13 +65,13 @@
         <h2>Profile</h2>
         <form th:action="@{/account/profile}" method="post">
             <label>Email
-                <input type="email" name="email" th:value="${user.email}" required/>
+                <input type="email" name="email" th:value="${user != null} ? ${user.email} : ''" required/>
             </label>
             <label>First name
-                <input type="text" name="firstName" th:value="${user.firstName}" required/>
+                <input type="text" name="firstName" th:value="${user != null} ? ${user.firstName} : ''" required/>
             </label>
             <label>Last name
-                <input type="text" name="lastName" th:value="${user.lastName}" required/>
+                <input type="text" name="lastName" th:value="${user != null} ? ${user.lastName} : ''" required/>
             </label>
             <button type="submit">Save profile</button>
         </form>

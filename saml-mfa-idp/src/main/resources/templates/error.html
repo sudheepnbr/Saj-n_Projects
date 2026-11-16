@@ -10,7 +10,8 @@
 <main class="card">
     <h1>Something went wrong</h1>
     <p th:if="${status}" th:text="'HTTP ' + ${status}">HTTP error</p>
-    <p>Go back to <a th:href="@{/}">the identity provider</a> and try again.</p>
+    <p class="flash err" th:if="${message}" th:text="${message}"></p>
+    <p>Go back to <a th:href="@{/login}">sign in</a> or <a th:href="@{/account}">your account</a>.</p>
 </main>
 </body>
 </html>

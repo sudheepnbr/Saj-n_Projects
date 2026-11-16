@@ -32,6 +32,8 @@ services:
       SPRING_DATASOURCE_USERNAME: oih
       SPRING_DATASOURCE_PASSWORD: oih_dev_only
       OIH_SETUP_TOKEN: oih-local-setup
+      # If you open the app from another computer (http://192.168.x.x:8080),
+      # change both URLs to that address so SAML Destination checks match.
       OIH_ENTITY_ID: http://localhost:8080/saml2/idp/metadata
       OIH_BASE_URL: http://localhost:8080
       # 32 zero bytes, development only — replace before any real deployment

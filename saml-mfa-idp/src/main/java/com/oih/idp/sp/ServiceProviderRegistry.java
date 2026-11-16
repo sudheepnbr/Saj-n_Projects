@@ -21,8 +21,16 @@ public class ServiceProviderRegistry {
         return repository.findByEntityId(entityId).filter(ServiceProvider::isEnabled);
     }
 
+    @Transactional(readOnly = true)
     public List<ServiceProvider> list() {
-        return repository.findAll();
+        List<ServiceProvider> all = repository.findAll();
+        all.forEach(sp -> {
+            sp.getAcs().size();
+            sp.getSlo().size();
+            sp.getCertificates().size();
+            sp.getMappings().size();
+        });
+        return all;
     }
 
     @Transactional
