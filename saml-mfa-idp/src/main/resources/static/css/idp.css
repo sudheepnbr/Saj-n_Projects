@@ -75,6 +75,12 @@ input, select {
   box-sizing: border-box;
 }
 
+input[type=checkbox] {
+  width: auto;
+  display: inline;
+  margin-right: 0.4rem;
+}
+
 button, .button {
   background: var(--accent);
   color: #fff;

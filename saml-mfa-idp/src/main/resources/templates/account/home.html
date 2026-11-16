@@ -11,7 +11,7 @@
     <div class="brand" th:text="${displayName}">OIH Local Identity Provider</div>
     <nav>
         <a th:href="@{/account}">Account</a>
-        <a th:href="@{/admin}">Admin</a>
+        <a th:if="${admin}" th:href="@{/admin}">Admin</a>
         <form class="inline" th:action="@{/account/logout-global}" method="post">
             <button type="submit">Sign out everywhere</button>
         </form>
@@ -25,6 +25,41 @@
     <p class="flash err" th:if="${error}" th:text="${error}"></p>
     <h1>Your account</h1>
     <p>Signed in as <strong th:text="${user.username}">user</strong>.</p>
+
+    <section class="card">
+        <h2>Applications</h2>
+        <p th:if="${applications.isEmpty()}">No service providers are registered yet.
+            <span th:if="${admin}">Open Admin → Service providers to add one.</span>
+        </p>
+        <table th:if="${!applications.isEmpty()}">
+            <thead>
+            <tr>
+                <th>Application</th>
+                <th>Entity ID</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="app : ${applications}">
+                <td th:text="${app.displayName}">App</td>
+                <td th:text="${app.entityId}">https://sp</td>
+                <td>
+                    <a class="button" th:href="@{/saml2/idp/initiate(sp=${app.entityId})}">Sign in</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="card">
+        <h2>Authenticator (MFA)</h2>
+        <p th:if="${mfaEnrolled}">An authenticator is enrolled on this account. You will be asked for a code at sign-in.</p>
+        <p th:unless="${mfaEnrolled}">
+            MFA is <span th:text="${mfaPlatform} ? 'required for every sign-in' : 'optional'">optional</span>.
+            Enroll an authenticator app to add a second factor.
+        </p>
+        <p th:unless="${mfaEnrolled}"><a class="button" th:href="@{/mfa/enroll}">Enroll authenticator</a></p>
+    </section>
 
     <section class="card">
         <h2>Profile</h2>

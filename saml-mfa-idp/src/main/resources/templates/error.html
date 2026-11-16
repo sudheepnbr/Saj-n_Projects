@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Something went wrong</title>
+    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+</head>
+<body>
+<main class="card">
+    <h1>Something went wrong</h1>
+    <p th:if="${status}" th:text="'HTTP ' + ${status}">HTTP error</p>
+    <p>Go back to <a th:href="@{/}">the identity provider</a> and try again.</p>
+</main>
+</body>
+</html>

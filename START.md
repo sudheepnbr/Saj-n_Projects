@@ -46,9 +46,11 @@ Wait until the IdP container is up (first build downloads Maven dependencies).
 | ---- | --- | ------------- |
 | First-run setup | http://localhost:8080/setup | Token **`oih-local-setup`**, then create the first admin (password ≥ 12 characters, 3 character classes) |
 | Sign in | http://localhost:8080/login | The admin you just created |
-| Account | http://localhost:8080/account | Profile / password |
+| Account | http://localhost:8080/account | Profile, optional MFA, **Sign in** links for registered apps |
 | Admin | http://localhost:8080/admin | Users, **Service providers**, **Signing keys** |
 | SAML metadata | http://localhost:8080/saml2/idp/metadata | Public XML |
+
+Register a service provider under Admin → Service providers (entity ID + ACS URL). It then appears on the account page with an IdP-initiated **Sign in** button.
 
 This local stack uses the **software signing token** (not SoftHSM). That is for development only.
 
@@ -74,6 +76,13 @@ CREATE DATABASE oih_idp OWNER oih;
 docker compose down
 # wipe the database volume:
 docker compose down -v
+```
+
+Without Docker, reset the local database (then restart the IdP) so `/setup` is offered again:
+
+```bash
+chmod +x saml-mfa-idp/scripts/reset-dev-db.sh
+./saml-mfa-idp/scripts/reset-dev-db.sh
 ```
 
 ## Not for production

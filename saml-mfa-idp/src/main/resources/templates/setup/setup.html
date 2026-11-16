@@ -10,7 +10,7 @@
 <main class="card">
     <h1>Create the first administrator</h1>
     <p th:text="${displayName}">OIH Local Identity Provider</p>
-    <p>Use the setup token from <code>OIH_SETUP_TOKEN</code> or the development log.</p>
+    <p>Use the setup token from <code>OIH_SETUP_TOKEN</code>. For the local Docker/Maven stack that token is <code>oih-local-setup</code>.</p>
     <p class="flash err" th:if="${error}" th:text="${error}"></p>
     <form th:action="@{/setup}" method="post">
         <label>Setup token

@@ -3,10 +3,15 @@ package com.oih.idp.account.web;
 import com.oih.idp.config.IdpProperties;
 import com.oih.idp.identity.IdentityException;
 import com.oih.idp.identity.IdentityService;
+import com.oih.idp.identity.domain.Role;
 import com.oih.idp.identity.domain.User;
+import com.oih.idp.mfa.MfaService;
+import com.oih.idp.sp.ServiceProvider;
+import com.oih.idp.sp.ServiceProviderRegistry;
 import com.oih.idp.web.security.IdpUserPrincipal;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import java.util.List;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,17 +27,31 @@ public class AccountController {
 
     private final IdentityService identity;
     private final IdpProperties properties;
+    private final ServiceProviderRegistry registry;
+    private final MfaService mfa;
 
-    public AccountController(IdentityService identity, IdpProperties properties) {
+    public AccountController(
+            IdentityService identity,
+            IdpProperties properties,
+            ServiceProviderRegistry registry,
+            MfaService mfa) {
         this.identity = identity;
         this.properties = properties;
+        this.registry = registry;
+        this.mfa = mfa;
     }
 
     @GetMapping
     public String account(@AuthenticationPrincipal IdpUserPrincipal principal, Model model) {
         User user = identity.requireUser(principal.getUserId());
+        List<ServiceProvider> applications =
+                registry.list().stream().filter(ServiceProvider::isEnabled).toList();
         model.addAttribute("displayName", properties.getDisplayName());
         model.addAttribute("user", user);
+        model.addAttribute("applications", applications);
+        model.addAttribute("admin", user.hasRole(Role.ADMIN) || user.hasRole(Role.OPERATOR) || user.hasRole(Role.AUDITOR));
+        model.addAttribute("mfaEnrolled", mfa.isEnrolled(user.getId()));
+        model.addAttribute("mfaPlatform", mfa.platformEnabled());
         return "account/home";
     }
 

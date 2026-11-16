@@ -57,8 +57,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/saml2/idp/sso", "/saml2/idp/slo")
                         .permitAll()
                         .requestMatchers("/setup", "/setup/**")
-                        .access((authentication, context) ->
-                                new AuthorizationDecision(users.count() == 0))
+                        .permitAll()
                         .requestMatchers("/mfa/**")
                         .authenticated()
                         .requestMatchers("/admin/**")

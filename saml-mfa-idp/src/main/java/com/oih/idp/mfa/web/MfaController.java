@@ -10,6 +10,8 @@ import com.oih.idp.session.SsoSessionService;
 import com.oih.idp.web.security.IdpUserPrincipal;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.Serializable;
+import java.util.List;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/mfa")
 public class MfaController {
+
+    static final String ENROLLMENT = "MFA_ENROLLMENT";
 
     private final MfaService mfa;
     private final IdentityService identity;
@@ -42,12 +46,22 @@ public class MfaController {
     public String enroll(
             @AuthenticationPrincipal IdpUserPrincipal principal, HttpServletRequest request, Model model) {
         User user = identity.requireUser(principal.getUserId());
-        var enrollment = mfa.startEnrollment(user);
-        request.getSession().setAttribute("MFA_ENROLL_SECRET", enrollment.otpauthUri());
+        boolean pendingEnrollment = SecurityContextHolder.getContext().getAuthentication()
+                instanceof MfaPendingAuthenticationToken pending
+                && pending.isEnrollment();
+        if (mfa.isEnrolled(user.getId()) && !pendingEnrollment) {
+            return "redirect:/account";
+        }
+        EnrollmentView view = (EnrollmentView) request.getSession().getAttribute(ENROLLMENT);
+        if (view == null) {
+            var enrollment = mfa.startEnrollment(user);
+            view = new EnrollmentView(enrollment.otpauthUri(), enrollment.qrPngBase64(), enrollment.recoveryCodes());
+            request.getSession().setAttribute(ENROLLMENT, view);
+        }
         model.addAttribute("displayName", properties.getDisplayName());
-        model.addAttribute("otpauth", enrollment.otpauthUri());
-        model.addAttribute("qr", enrollment.qrPngBase64());
-        model.addAttribute("recoveryCodes", enrollment.recoveryCodes());
+        model.addAttribute("otpauth", view.otpauth());
+        model.addAttribute("qr", view.qr());
+        model.addAttribute("recoveryCodes", view.recoveryCodes());
         return "mfa/enroll";
     }
 
@@ -61,12 +75,19 @@ public class MfaController {
         User user = identity.requireUser(principal.getUserId());
         try {
             mfa.confirmEnrollment(user, code);
+            request.getSession().removeAttribute(ENROLLMENT);
             complete(principal, request, response);
             Object saved = request.getSession().getAttribute("SAML_CONTINUE");
             return "redirect:" + (saved instanceof String url ? url : "/account");
         } catch (IdentityException ex) {
+            EnrollmentView view = (EnrollmentView) request.getSession().getAttribute(ENROLLMENT);
             model.addAttribute("displayName", properties.getDisplayName());
             model.addAttribute("error", ex.getMessage());
+            if (view != null) {
+                model.addAttribute("otpauth", view.otpauth());
+                model.addAttribute("qr", view.qr());
+                model.addAttribute("recoveryCodes", view.recoveryCodes());
+            }
             return "mfa/enroll";
         }
     }
@@ -93,6 +114,7 @@ public class MfaController {
             return "mfa/verify";
         }
         if (recovery && properties.getMfa().isRecoveryRequiresReset()) {
+            request.getSession().removeAttribute(ENROLLMENT);
             var pending = new MfaPendingAuthenticationToken(principal, true);
             SecurityContextHolder.getContext().setAuthentication(pending);
             return "redirect:/mfa/enroll";
@@ -111,4 +133,6 @@ public class MfaController {
         new HttpSessionSecurityContextRepository().saveContext(context, request, response);
         sso.establish(principal, request);
     }
+
+    public record EnrollmentView(String otpauth, String qr, List<String> recoveryCodes) implements Serializable {}
 }

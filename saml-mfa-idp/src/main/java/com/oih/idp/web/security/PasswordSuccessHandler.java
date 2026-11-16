@@ -36,8 +36,9 @@ public class PasswordSuccessHandler implements AuthenticationSuccessHandler {
         request.changeSessionId();
         IdpUserPrincipal principal = (IdpUserPrincipal) authentication.getPrincipal();
         User user = identity.requireUser(principal.getUserId());
-        if (mfa.platformEnabled()) {
-            boolean enrollment = !mfa.isEnrolled(user.getId());
+        boolean enrolled = mfa.isEnrolled(user.getId());
+        if (mfa.platformEnabled() || enrolled) {
+            boolean enrollment = !enrolled;
             var pending = new MfaPendingAuthenticationToken(principal, enrollment);
             var context = SecurityContextHolder.createEmptyContext();
             context.setAuthentication(pending);
