@@ -4,8 +4,8 @@ This project is developed in gated phases. Do not skip a phase.
 
 | Phase | Status | Gate |
 | ----- | ------ | ---- |
-| 1 Architecture and threat model | In review | This pull request |
-| 2 Core identity platform | Not started | Phase 1 approved |
+| 1 Architecture and threat model | Complete | Accepted on `main` |
+| 2 Core identity platform | In review | This pull request |
 | 3 HSM integration | Not started | Phase 2 accepted |
 | 4 MFA and sessions | Not started | Phase 3 accepted |
 | 5 SAML IdP | Not started | Phase 4 accepted |

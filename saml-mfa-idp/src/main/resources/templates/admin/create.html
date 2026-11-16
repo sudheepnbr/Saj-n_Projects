@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Create user</title>
+    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+</head>
+<body>
+<header class="bar">
+    <div class="brand" th:text="${displayName}">OIH Local Identity Provider</div>
+    <nav>
+        <a th:href="@{/account}">Account</a>
+        <a th:href="@{/admin}">Admin</a>
+    </nav>
+</header>
+<main class="wrap">
+    <p class="flash err" th:if="${error}" th:text="${error}"></p>
+    <h1>Create user</h1>
+    <form class="card" th:action="@{/admin/users}" method="post">
+        <label>Username
+            <input type="text" name="username" required/>
+        </label>
+        <label>Email
+            <input type="email" name="email" required/>
+        </label>
+        <label>First name
+            <input type="text" name="firstName" required/>
+        </label>
+        <label>Last name
+            <input type="text" name="lastName" required/>
+        </label>
+        <label>Password
+            <input type="password" name="password" required minlength="12" autocomplete="new-password"/>
+        </label>
+        <label>Role
+            <select name="role">
+                <option value="USER" selected>USER</option>
+                <option value="OPERATOR">OPERATOR</option>
+                <option value="ADMIN">ADMIN</option>
+                <option value="AUDITOR">AUDITOR</option>
+            </select>
+        </label>
+        <button type="submit">Create</button>
+    </form>
+</main>
+</body>
+</html>

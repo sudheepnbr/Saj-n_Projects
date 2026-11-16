@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Users</title>
+    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+</head>
+<body>
+<header class="bar">
+    <div class="brand" th:text="${displayName}">OIH Local Identity Provider</div>
+    <nav>
+        <a th:href="@{/account}">Account</a>
+        <a th:href="@{/admin}">Admin</a>
+        <form class="inline" th:action="@{/logout}" method="post">
+            <button type="submit">Sign out</button>
+        </form>
+    </nav>
+</header>
+<main class="wrap">
+    <p class="flash ok" th:if="${info}" th:text="${info}"></p>
+    <p class="flash err" th:if="${error}" th:text="${error}"></p>
+    <h1>Users</h1>
+    <p><a class="button" th:href="@{/admin/users/new}">Create user</a></p>
+    <table>
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Enabled</th>
+            <th>Locked until</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${users}">
+            <td th:text="${u.username}">user</td>
+            <td th:text="${u.email}">email</td>
+            <td th:text="${u.enabled}">true</td>
+            <td th:text="${u.lockedUntil}">—</td>
+            <td>
+                <span th:each="r : ${u.roles}" th:text="${r.name} + ' '">USER</span>
+            </td>
+            <td class="actions">
+                <form th:if="${u.enabled}" th:action="@{/admin/users/{id}/disable(id=${u.id})}" method="post">
+                    <button type="submit">Disable</button>
+                </form>
+                <form th:unless="${u.enabled}" th:action="@{/admin/users/{id}/enable(id=${u.id})}" method="post">
+                    <button type="submit">Enable</button>
+                </form>
+                <form th:action="@{/admin/users/{id}/unlock(id=${u.id})}" method="post">
+                    <button type="submit">Unlock</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 Production-grade **SAML 2.0 Identity Provider** for local identities, with RFC 6238 TOTP MFA, PKCS#11-backed signing, and PostgreSQL as the authoritative state store.
 
-This project currently contains **Phase 1 — Architecture and Security Design**. There is no Java runtime in this pull request. Implementation starts only after this architecture is reviewed and approved.
+This project currently contains **Phase 1 architecture** plus a runnable **Phase 2 identity platform** (users, Argon2id, lockout, admin and account consoles). SAML, HSM, and TOTP are not in this phase.
 
 Repository: [github.com/sudheepnbr/Saj-n_Projects](https://github.com/sudheepnbr/Saj-n_Projects) · path `saml-mfa-idp/`
 
@@ -34,15 +34,15 @@ A standalone, enterprise-ready Identity Provider that:
 
 | Phase | Deliverable | Status |
 | ----- | ----------- | ------ |
-| **1** | Architecture, threat model, ADRs, roadmap | **This PR** |
-| 2 | Users, passwords, RBAC, admin console | Not started |
+| **1** | Architecture, threat model, ADRs, roadmap | Complete on `main` |
+| **2** | Users, passwords, RBAC, admin console | **This PR** |
 | 3 | PKCS#11 / SoftHSM2 signing and rotation | Not started |
 | 4 | TOTP, recovery codes, SSO sessions | Not started |
 | 5 | OpenSAML IdP, metadata, assertion issuance | Not started |
 | 6 | SLO and live SP interoperability | Not started |
 | 7 | HA, monitoring, backup, production cutover | Not started |
 
-Start here: [`docs/README.md`](docs/README.md)
+Start here: [`docs/README.md`](docs/README.md) · run Phase 2: [`docs/runbooks/phase2-identity.md`](docs/runbooks/phase2-identity.md)
 
 ## Verified technology baseline
 

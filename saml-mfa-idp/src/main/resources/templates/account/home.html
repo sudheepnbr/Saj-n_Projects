@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Account</title>
+    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+</head>
+<body>
+<header class="bar">
+    <div class="brand" th:text="${displayName}">OIH Local Identity Provider</div>
+    <nav>
+        <a th:href="@{/account}">Account</a>
+        <a th:href="@{/admin}">Admin</a>
+        <form class="inline" th:action="@{/logout}" method="post">
+            <button type="submit">Sign out</button>
+        </form>
+    </nav>
+</header>
+<main class="wrap">
+    <p class="flash ok" th:if="${info}" th:text="${info}"></p>
+    <p class="flash err" th:if="${error}" th:text="${error}"></p>
+    <h1>Your account</h1>
+    <p>Signed in as <strong th:text="${user.username}">user</strong>.</p>
+
+    <section class="card">
+        <h2>Profile</h2>
+        <form th:action="@{/account/profile}" method="post">
+            <label>Email
+                <input type="email" name="email" th:value="${user.email}" required/>
+            </label>
+            <label>First name
+                <input type="text" name="firstName" th:value="${user.firstName}" required/>
+            </label>
+            <label>Last name
+                <input type="text" name="lastName" th:value="${user.lastName}" required/>
+            </label>
+            <button type="submit">Save profile</button>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2>Password</h2>
+        <form th:action="@{/account/password}" method="post">
+            <label>Current password
+                <input type="password" name="currentPassword" required autocomplete="current-password"/>
+            </label>
+            <label>New password
+                <input type="password" name="newPassword" required autocomplete="new-password" minlength="12"/>
+            </label>
+            <button type="submit">Change password</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>

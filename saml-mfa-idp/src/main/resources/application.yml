@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: oih-idp
+  threads:
+    virtual:
+      enabled: true
+  profiles:
+    default: dev
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+  datasource:
+    hikari:
+      maximum-pool-size: 10
+
+server:
+  servlet:
+    session:
+      cookie:
+        name: OIHIDPSESS
+        http-only: true
+        same-site: lax
+      timeout: 30m
+  error:
+    include-stacktrace: never
+    include-message: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+idp:
+  display-name: OIH Local Identity Provider
+  password:
+    min-length: 12
+    max-length: 128
+    required-character-classes: 3
+    history-size: 5
+    argon2-salt-length: 16
+    argon2-hash-length: 32
+    argon2-parallelism: 1
+    argon2-memory-kib: 16384
+    argon2-iterations: 2
+  lockout:
+    failure-threshold: 5
+    lock-duration: 15m
+    second-threshold: 8
+    second-lock-duration: 1h
+    third-threshold: 12
+    third-lock-duration: 24h
+    ip-window: 15m
+    ip-failure-threshold: 30
+  setup:
+    token: ${OIH_SETUP_TOKEN:}
+  mfa:
+    enabled: false

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Sign in</title>
+    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+</head>
+<body>
+<main class="card">
+    <h1 th:text="${displayName}">OIH Local Identity Provider</h1>
+    <p>Sign in with your local account.</p>
+    <p class="flash err" th:if="${error}" th:text="${error}"></p>
+    <p class="flash ok" th:if="${info}" th:text="${info}"></p>
+    <p class="flash ok" th:if="${param.setup}">Administrator account created. Sign in to continue.</p>
+    <form th:action="@{/login}" method="post">
+        <label>Username
+            <input type="text" name="username" autocomplete="username" required autofocus/>
+        </label>
+        <label>Password
+            <input type="password" name="password" autocomplete="current-password" required/>
+        </label>
+        <button type="submit">Sign in</button>
+    </form>
+</main>
+</body>
+</html>

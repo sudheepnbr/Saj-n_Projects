@@ -1,0 +1,126 @@
+:root {
+  color-scheme: light;
+  --bg: #f4f1ea;
+  --ink: #1c1917;
+  --muted: #57534e;
+  --card: #fffcf7;
+  --line: #d6d3d1;
+  --accent: #0f4c5c;
+  --ok: #166534;
+  --err: #9f1239;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: #fff;
+}
+
+.bar a, .bar button {
+  color: #fff;
+  margin-left: 0.75rem;
+}
+
+.brand {
+  font-weight: 650;
+}
+
+.wrap {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1rem 3rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 420px;
+  margin: 3rem auto;
+}
+
+.wrap .card {
+  margin: 1rem 0;
+  max-width: none;
+}
+
+label {
+  display: block;
+  margin: 0.75rem 0;
+  font-weight: 600;
+}
+
+input, select, button {
+  font: inherit;
+}
+
+input, select {
+  display: block;
+  width: 100%;
+  margin-top: 0.3rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+button, .button {
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.inline {
+  display: inline;
+}
+
+.flash {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+}
+
+.flash.ok {
+  background: #dcfce7;
+  color: var(--ok);
+}
+
+.flash.err {
+  background: #ffe4e6;
+  color: var(--err);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+}
+
+th, td {
+  text-align: left;
+  padding: 0.6rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.actions form {
+  display: inline;
+}
+
+.actions button {
+  margin-right: 0.3rem;
+}

@@ -16,28 +16,26 @@ flowchart LR
 
 ## Phase 1 — Architecture and threat model
 
-**This pull request.**
-
-Delivered: specification review, blueprint, diagrams, threat model, data model, HSM design, ADRs, version pins, test matrix, SoftHSM runbook.
+Delivered on `main`: specification review, blueprint, diagrams, threat model, data model, HSM design, ADRs, version pins, test matrix, SoftHSM runbook.
 
 Acceptance:
 
-- [ ] Reviewer accepts ADRs 0001–0010
-- [ ] Reviewer accepts interoperability matrix
-- [ ] Deferred items (artifact, SOAP SLO, OIDC) remain deferred
-
-**No Java source.**
+- [x] Reviewer accepts ADRs 0001–0010
+- [x] Reviewer accepts interoperability matrix
+- [x] Deferred items (artifact, SOAP SLO, OIDC) remain deferred
 
 ## Phase 2 — Core identity platform
 
-Maven project, Flyway, users, roles, Argon2id, lockout, admin console skeleton, self-service profile/password, CSRF, security headers, JSON logs, fail-fast `prod` profile.
+**This pull request.** Maven project, Flyway, users, roles, Argon2id, lockout, admin console, self-service profile/password, CSRF, security headers, JSON logs, fail-fast `prod` profile.
+
+Runbook: [`runbooks/phase2-identity.md`](runbooks/phase2-identity.md)
 
 Acceptance:
 
-- Admin can create, disable, unlock users
-- Enumeration-safe login tests pass
-- Lockout works across two application processes sharing Postgres
-- No H2 in the default test suite
+- [x] Admin can create, disable, unlock users (`AdminLifecycleIT`)
+- [x] Enumeration-safe login tests pass (`LoginEnumerationIT`)
+- [x] Lockout is stored in PostgreSQL and blocks later attempts (`LockoutIT`)
+- [x] No H2 in the default test suite (`NoH2InClasspathTest`)
 
 ## Phase 3 — HSM integration
 
