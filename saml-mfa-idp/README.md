@@ -34,13 +34,13 @@ A standalone, enterprise-ready Identity Provider that:
 
 | Phase | Deliverable | Status |
 | ----- | ----------- | ------ |
-| **1** | Architecture, threat model, ADRs, roadmap | Complete on `main` |
+| **1** | Architecture, threat model, ADRs, roadmap | Complete |
 | **2** | Users, passwords, RBAC, admin console | Complete |
-| **3** | PKCS#11 / SoftHSM2 signing and rotation | **This PR** |
-| **4** | TOTP, recovery codes, SSO sessions | **This PR** |
-| **5** | SAML IdP, metadata, assertion issuance | **This PR** |
-| **6** | SLO and SP interoperability notes | **This PR** |
-| **7** | HA, monitoring, backup, production cutover | **This PR** |
+| **3** | PKCS#11 / SoftHSM2 signing and rotation | Complete |
+| **4** | TOTP, recovery codes, SSO sessions | Complete |
+| **5** | SAML IdP, metadata, assertion issuance | Complete |
+| **6** | SLO and SP interoperability | Complete |
+| **7** | HA, monitoring, backup, production cutover | Complete |
 
 **Run this app:** [`../START.md`](../START.md) (`./run.sh` or `docker compose up --build`). First-run token: `oih-local-setup`.
 
