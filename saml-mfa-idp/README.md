@@ -1,4 +1,4 @@
-# OIH Local Identity Provider
+# IMT InfraMindTech Identity Provider
 
 Production-grade **SAML 2.0 Identity Provider** for local identities, with RFC 6238 TOTP MFA, PKCS#11-backed signing, and PostgreSQL as the authoritative state store.
 
@@ -80,7 +80,7 @@ flowchart LR
     A[Administrator]
   end
 
-  subgraph IdP["OIH Local IdP — modular monolith"]
+  subgraph IdP["IMT InfraMindTech IdP — modular monolith"]
     WEB[Thymeleaf portals]
     AUTH[Authentication + MFA]
     SESS[SSO session registry]

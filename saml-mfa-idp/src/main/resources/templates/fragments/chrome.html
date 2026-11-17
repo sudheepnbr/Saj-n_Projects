@@ -6,25 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="color-scheme" content="light"/>
     <meta name="theme-color" content="#0B1F3A"/>
-    <title th:text="${title}">OIH Identity</title>
-    <link rel="icon" th:href="@{/favicon.svg}" type="image/svg+xml"/>
+    <title th:text="${title} + ' | IMT InfraMindTech'">IMT InfraMindTech</title>
+    <link rel="icon" th:href="@{/favicon.png}" type="image/png"/>
     <link rel="stylesheet" th:href="@{/css/idp.css}"/>
 </th:block>
 
-<span th:fragment="mark" class="mark" aria-hidden="true">
-    <svg viewBox="0 0 32 32" width="28" height="28" focusable="false">
-        <rect width="32" height="32" rx="8" fill="currentColor"/>
-        <path d="M16 6.5c4.2 2.1 6.8 2.6 8 2.8v7.3c0 4.7-3.1 7.9-8 9.9-4.9-2-8-5.2-8-9.9V9.3c1.2-.2 3.8-.7 8-2.8z" fill="#E8EEF7"/>
-        <path d="M14.2 16.7l1.5 1.5 3.7-3.8 1.3 1.3-5 5.1-2.8-2.8 1.3-1.3z" fill="#0B1F3A"/>
-    </svg>
+<span th:fragment="mark" class="mark">
+    <img th:src="@{/img/imt-logo.png}" alt="IMT InfraMindTech" width="181" height="101"/>
 </span>
 
 <header th:fragment="appbar(active, showAdmin)" class="appbar">
     <a class="brand-lockup" th:href="@{/account}">
         <span th:replace="~{fragments/chrome :: mark}"></span>
         <span class="brand-text">
-            <strong th:text="${displayName}">OIH Local Identity Provider</strong>
-            <span class="brand-sub">Identity platform</span>
+            <strong th:text="${displayName}">IMT InfraMindTech</strong>
+            <span class="brand-sub">Identity Provider</span>
         </span>
     </a>
     <nav class="appbar-nav" aria-label="Primary">

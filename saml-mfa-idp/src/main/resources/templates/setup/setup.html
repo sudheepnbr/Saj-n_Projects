@@ -9,7 +9,7 @@
         <div class="brand-lockup">
             <span th:replace="~{fragments/chrome :: mark}"></span>
             <span class="brand-text">
-                <strong th:text="${displayName}">OIH Local Identity Provider</strong>
+                <strong th:text="${displayName}">IMT InfraMindTech</strong>
                 <span class="brand-sub">First-run setup</span>
             </span>
         </div>
@@ -25,7 +25,7 @@
         <div class="card">
             <p class="eyebrow">Bootstrap</p>
             <h1>Create the first administrator</h1>
-            <p>Use the setup token from <code>OIH_SETUP_TOKEN</code>. For the local Docker/Maven stack that token is <code>oih-local-setup</code>.</p>
+            <p>Use the setup token from your environment. For the local Docker/Maven stack that token is <code>oih-local-setup</code>.</p>
             <p class="flash err" th:if="${error}" th:text="${error}"></p>
             <form th:action="@{/setup}" method="post">
                 <label>Setup token

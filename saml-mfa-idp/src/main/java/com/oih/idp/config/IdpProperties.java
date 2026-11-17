@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "idp")
 public class IdpProperties {
 
-    private String displayName = "OIH Local Identity Provider";
+    private String displayName = "IMT InfraMindTech";
     private String entityId = "https://idp.example.org/saml2/idp/metadata";
     private String baseUrl = "http://127.0.0.1:8080";
     private final Password password = new Password();

@@ -47,7 +47,9 @@ public class SecurityConfig {
                                 "/",
                                 "/css/**",
                                 "/js/**",
+                                "/img/**",
                                 "/favicon.svg",
+                                "/favicon.png",
                                 "/favicon.ico",
                                 "/login",
                                 "/error",
@@ -88,7 +90,7 @@ public class SecurityConfig {
                         .logoutRequestMatcher(PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/logout"))
                         .logoutSuccessUrl("/login?logout")
                         .invalidateHttpSession(true)
-                        .deleteCookies("OIHIDPSESS"))
+                        .deleteCookies("IMTIDPSESS"))
                 .csrf(csrf -> csrf.ignoringRequestMatchers(
                         PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/saml2/idp/sso"),
                         PathPatternRequestMatcher.pathPattern(HttpMethod.POST, "/saml2/idp/slo")))

@@ -97,7 +97,7 @@ class WorkableFlowIT extends PostgresIntegrationTest {
                 .andExpect(redirectedUrl("/account"))
                 .andReturn();
         MockHttpSession session = (MockHttpSession) login.getRequest().getSession();
-        jakarta.servlet.http.Cookie sessionCookie = login.getResponse().getCookie("OIHIDPSESS");
+        jakarta.servlet.http.Cookie sessionCookie = login.getResponse().getCookie("IMTIDPSESS");
         if (sessionCookie != null) {
             mvc.perform(get("/account").cookie(sessionCookie))
                     .andExpect(status().isOk())

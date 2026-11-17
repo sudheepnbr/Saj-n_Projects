@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate docs/OIH-IdP-Setup-Instructions.pdf from the production setup guide."""
+"""Generate docs/IMT-IdP-Setup-Instructions.pdf from the production setup guide."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from pathlib import Path
 from fpdf import FPDF
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "docs" / "OIH-IdP-Setup-Instructions.pdf"
+OUT = ROOT / "docs" / "IMT-IdP-Setup-Instructions.pdf"
 
 
 class Guide(FPDF):
@@ -17,7 +17,7 @@ class Guide(FPDF):
             return
         self.set_font("Helvetica", "I", 9)
         self.set_text_color(80, 80, 80)
-        self.cell(0, 8, "OIH Local Identity Provider | Setup and production", align="L")
+        self.cell(0, 8, "IMT InfraMindTech | Setup and production", align="L")
         self.cell(0, 8, str(self.page_no()), align="R", new_x="LMARGIN", new_y="NEXT")
         self.set_draw_color(15, 76, 92)
         self.line(20, 16, 190, 16)
@@ -27,7 +27,7 @@ class Guide(FPDF):
         self.set_y(-15)
         self.set_font("Helvetica", "", 8)
         self.set_text_color(120, 120, 120)
-        self.cell(0, 8, "Confidential operations copy | branch cursor/saml-mfa-idp-phases-3-7-04b9", align="C")
+        self.cell(0, 8, "IMT InfraMindTech Identity Provider | InfraMindTech", align="C")
 
 
 def ascii(text: str) -> str:
@@ -135,7 +135,7 @@ def main() -> None:
     pdf.set_text_color(255, 255, 255)
     pdf.set_font("Helvetica", "B", 22)
     pdf.set_xy(20, 14)
-    pdf.cell(0, 10, "OIH Local Identity Provider")
+    pdf.cell(0, 10, "IMT InfraMindTech")
     pdf.set_xy(20, 26)
     pdf.set_font("Helvetica", "", 13)
     pdf.cell(0, 8, "Setup instructions  ·  lab and production")

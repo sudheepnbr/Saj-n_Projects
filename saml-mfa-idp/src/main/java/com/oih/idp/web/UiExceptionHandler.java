@@ -1,5 +1,6 @@
 package com.oih.idp.web;
 
+import com.oih.idp.config.IdpProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +20,11 @@ public class UiExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(UiExceptionHandler.class);
 
     private final Environment environment;
+    private final IdpProperties properties;
 
-    public UiExceptionHandler(Environment environment) {
+    public UiExceptionHandler(Environment environment, IdpProperties properties) {
         this.environment = environment;
+        this.properties = properties;
     }
 
     @ExceptionHandler(Exception.class)
@@ -32,7 +35,7 @@ public class UiExceptionHandler {
         }
         log.error("Request failed {} {}", request.getMethod(), request.getRequestURI(), ex);
         model.addAttribute("status", 500);
-        model.addAttribute("displayName", "OIH Local Identity Provider");
+        model.addAttribute("displayName", properties.getDisplayName());
         boolean show = !environment.acceptsProfiles(Profiles.of("prod", "production"));
         model.addAttribute("message", show ? ex.getClass().getSimpleName() + ": " + ex.getMessage() : null);
         return "error";

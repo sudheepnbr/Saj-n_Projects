@@ -62,14 +62,29 @@ p.lead { font-size: 0.98rem; }
 /* ---------- Brand ---------- */
 .mark {
   display: inline-flex;
-  color: var(--accent);
   flex-shrink: 0;
+  line-height: 0;
 }
-.appbar .mark,
-.auth-aside .mark {
-  color: #3b82f6;
+.mark img {
+  display: block;
+  height: 36px;
+  width: auto;
+  border-radius: 8px;
+  background: #0f0f10;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 10%);
 }
-.mark svg { display: block; }
+.auth-aside .brand-lockup {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.auth-aside .mark img {
+  height: 72px;
+}
+.saml-continue .mark img {
+  height: 48px;
+  margin: 0 auto 0.75rem;
+}
 .brand-lockup {
   display: flex;
   align-items: center;
@@ -86,7 +101,7 @@ p.lead { font-size: 0.98rem; }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 280px;
+  max-width: 340px;
 }
 .brand-sub {
   font-size: 0.7rem;

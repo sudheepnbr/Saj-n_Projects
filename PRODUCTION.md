@@ -1,9 +1,9 @@
-# OIH Local Identity Provider — setup and production
+# IMT InfraMindTech Identity Provider — setup and production
 
 Use this document to run the full stack in a **lab** and to cut over to **production**.
 The downloadable ZIP contains the same files as branch `cursor/saml-mfa-idp-phases-3-7-04b9`.
 
-Product: **OIH Local Identity Provider** — SAML 2.0 IdP for locally managed users, TOTP MFA, PKCS#11 signing, PostgreSQL.
+Product: **IMT InfraMindTech Identity Provider** — SAML 2.0 IdP for locally managed users, TOTP MFA, PKCS#11 signing, PostgreSQL. Vendor: **InfraMindTech**.
 
 This product does **not** broker LDAP, Active Directory, Entra ID, social login, or OIDC.
 
@@ -15,7 +15,7 @@ This product does **not** broker LDAP, Active Directory, Entra ID, social login,
 | ---- | ------- |
 | `START.md` | Fast local start |
 | `PRODUCTION.md` | This guide |
-| `docs/OIH-IdP-Setup-Instructions.pdf` | Printable copy of this guide |
+| `docs/IMT-IdP-Setup-Instructions.pdf` | Printable copy of this guide |
 | `run.sh` / `docker-compose.yml` | Local Docker (software signing token) |
 | `docker-compose.prod.yml` | Production Docker (PKCS#11 + TLS proxy) |
 | `deploy/env.prod.example` | Production environment template |

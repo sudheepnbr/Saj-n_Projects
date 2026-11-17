@@ -62,7 +62,7 @@ Minimum:
 1. A Spring Security 7 SAML **service provider** test app (this is what Spring Security actually is).
 2. One of: Keycloak client/SP, SimpleSAMLphp, or Shibboleth SP.
 
-FortiGate SSL-VPN SAML is an optional named interop target for OIH operations, not a v1 blocker.
+FortiGate SSL-VPN SAML is an optional named interop target for IMT InfraMindTech operations, not a v1 blocker.
 
 ## Security tests
 
