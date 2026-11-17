@@ -1,4 +1,4 @@
-# Phase 1 documentation map
+# InfraMindTech Identity Provider — documentation map
 
 Read in this order.
 
@@ -25,11 +25,14 @@ Supporting material:
 - [Package structure](reference/package-structure.md)
 - [Maven dependency design](reference/maven-dependency-design.md)
 - [SoftHSM2 runbook](runbooks/softhsm2.md)
+- [FortiGate IPsec SAML (IdP, FortiGate, FortiClient)](../../FORTIGATE.md)
 - [ADRs](adr/README.md)
 
 ## Review gate
 
-Phase 2 (Java implementation of the identity platform) must not start until this architecture is approved. Approval means:
+Phase 1 architecture is on `main`. Phases 2–7 are implemented on branch `cursor/saml-mfa-idp-phases-3-7-04b9`.
+
+Phase 1 approval meant:
 
 - the specification review findings are accepted or explicitly deferred
 - the ADRs are accepted

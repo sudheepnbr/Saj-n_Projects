@@ -86,7 +86,7 @@ Lab (Java keytool against PKCS#11 — keytool will use the token key and emit a 
 keytool -genkeypair \
   -alias idp-signing-active \
   -keyalg RSA -keysize 3072 \
-  -dname "CN=OIH Local IdP Signing,O=OIH,C=OM" \
+  -dname "CN=InfraMindTech IdP Signing,O=InfraMindTech,C=OM" \
   -validity 825 \
   -storetype PKCS11 \
   -providerClass sun.security.pkcs11.SunPKCS11 \

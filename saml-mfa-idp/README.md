@@ -1,10 +1,22 @@
-# OIH Local Identity Provider
+# InfraMindTech Identity Provider
 
 Production-grade **SAML 2.0 Identity Provider** for local identities, with RFC 6238 TOTP MFA, PKCS#11-backed signing, and PostgreSQL as the authoritative state store.
 
-This project currently contains **Phase 1 — Architecture and Security Design**. There is no Java runtime in this pull request. Implementation starts only after this architecture is reviewed and approved.
+This product is **InfraMindTech Identity Provider** (the IMT mark is the logo). Phases **1–7** are complete.
 
 Repository: [github.com/sudheepnbr/Saj-n_Projects](https://github.com/sudheepnbr/Saj-n_Projects) · path `saml-mfa-idp/`
+
+The runnable stack (Java, Docker, UI) is on branch [`cursor/saml-mfa-idp-phases-3-7-04b9`](https://github.com/sudheepnbr/Saj-n_Projects/tree/cursor/saml-mfa-idp-phases-3-7-04b9) ([PR #2](https://github.com/sudheepnbr/Saj-n_Projects/pull/2)).
+
+```bash
+git clone -b cursor/saml-mfa-idp-phases-3-7-04b9 https://github.com/sudheepnbr/Saj-n_Projects.git
+cd Saj-n_Projects
+./run.sh
+```
+
+Then open http://localhost:8080/setup with token `oih-local-setup`.
+
+**FortiGate IPsec (SAML, not SSL-VPN):** [`../FORTIGATE.md`](../FORTIGATE.md).
 
 ## What this system is
 
@@ -13,7 +25,7 @@ A standalone, enterprise-ready Identity Provider that:
 - authenticates users from a local identity database
 - enforces password policy, lockout, and TOTP MFA
 - issues standards-compliant SAML 2.0 assertions to registered Service Providers
-- signs with keys generated inside SoftHSM2 (PKCS#11)
+- signs with keys generated inside SoftHSM2 (PKCS#11) or a non-extractable software token in tests
 - encrypts assertions with the **target SP's** public encryption certificate
 - tracks IdP-wide SSO sessions and per-SP sessions
 - supports SP-initiated and IdP-initiated SSO and Single Logout
@@ -28,21 +40,21 @@ A standalone, enterprise-ready Identity Provider that:
 | OAuth / OIDC authorization server | SAML 2.0 IdP only in this product |
 | Keycloak at runtime | Independent implementation |
 | Cloud identity dependency | Operates on-premises |
-| Spring Security SAML as the IdP | Spring Security 7 is SP-only; IdP uses OpenSAML 5.x |
+| Spring Security SAML as the IdP | Spring Security 7 is SP-only; IdP protocol is implemented directly |
 
 ## Current status
 
 | Phase | Deliverable | Status |
 | ----- | ----------- | ------ |
-| **1** | Architecture, threat model, ADRs, roadmap | **This PR** |
-| 2 | Users, passwords, RBAC, admin console | Not started |
-| 3 | PKCS#11 / SoftHSM2 signing and rotation | Not started |
-| 4 | TOTP, recovery codes, SSO sessions | Not started |
-| 5 | OpenSAML IdP, metadata, assertion issuance | Not started |
-| 6 | SLO and live SP interoperability | Not started |
-| 7 | HA, monitoring, backup, production cutover | Not started |
+| **1** | Architecture, threat model, ADRs, roadmap | Complete |
+| **2** | Users, passwords, RBAC, admin console | Complete |
+| **3** | PKCS#11 / SoftHSM2 signing and rotation | Complete |
+| **4** | TOTP, recovery codes, SSO sessions | Complete |
+| **5** | SAML IdP, metadata, assertion issuance | Complete |
+| **6** | SLO and SP interoperability | Complete |
+| **7** | HA, monitoring, backup, production cutover | Complete |
 
-Start here: [`docs/README.md`](docs/README.md)
+Architecture: [`docs/README.md`](docs/README.md)
 
 ## Verified technology baseline
 
@@ -55,15 +67,14 @@ Pinned to **GA releases** checked on 16 November 2026. Snapshots and milestones 
 | Spring Framework | 7.0.10 | Boot 4.1.2 BOM |
 | Spring Security | **7.1.2** | Boot 4.1.2 BOM (`spring-security.version`) |
 | Spring Session | 4.1.1 | Boot 4.1.2 BOM |
-| OpenSAML | **5.2.3** | Latest GA on [Shibboleth Nexus](https://build.shibboleth.net/maven/releases/org/opensaml/opensaml-bom/) |
+| OpenSAML | **5.2.3** | Architecture pin |
+| Apache Santuario xmlsec | **4.0.4** | Compile-time SAML signature/encryption stack |
 | Hibernate | 7.4.13.Final | Boot 4.1.2 BOM |
 | Flyway | 12.4.0 | Boot 4.1.2 BOM |
 | PostgreSQL driver | 42.7.14 | Boot 4.1.2 BOM |
-| H2 (dev only) | 2.4.240 | Boot 4.1.2 BOM |
 | Thymeleaf | 3.1.5.RELEASE | Boot 4.1.2 BOM |
 | Tomcat | 11.0.27 | Boot 4.1.2 BOM |
-| Testcontainers | 2.0.5 | Boot 4.1.2 BOM |
-| PKCS#11 | Java SunPKCS11 | JDK 25 |
+| PKCS#11 | Java SunPKCS11 | JDK 21–25 |
 | HSM | SoftHSM2 | PKCS#11 token; replaceable with a physical HSM |
 | Password hashing | Argon2id | `Argon2PasswordEncoder` + Bouncy Castle |
 | MFA | RFC 6238 TOTP | Authenticator-compatible |
@@ -79,11 +90,11 @@ flowchart LR
     A[Administrator]
   end
 
-  subgraph IdP["OIH Local IdP — modular monolith"]
+  subgraph IdP["InfraMindTech IdP — modular monolith"]
     WEB[Thymeleaf portals]
     AUTH[Authentication + MFA]
     SESS[SSO session registry]
-    SAML[OpenSAML 5 IdP]
+    SAML[SAML 2.0 IdP]
     SPR[SP registry]
     AUD[Audit log]
   end
@@ -113,7 +124,7 @@ flowchart LR
   SAML --> SP2
 ```
 
-## Phase 1 documents
+## Documents
 
 | Document | Contents |
 | -------- | -------- |
@@ -129,14 +140,15 @@ flowchart LR
 | [Testing](docs/11-testing-strategy.md) | Unit, protocol, security matrix |
 | [Roadmap](docs/12-implementation-roadmap.md) | Gated phases and acceptance criteria |
 | [ADRs](docs/adr/README.md) | Architecture Decision Records |
+| [FortiGate IPsec](../FORTIGATE.md) | IdP, FortiGate IPsec, and FortiClient |
 
-## Hard rules that later phases must not violate
+## Hard rules
 
-1. Signing private keys are generated in the HSM and never written to JKS, PKCS12, PEM, or the database.
-2. Assertions are **signed** with the IdP HSM key and **encrypted** (when enabled) with the registered SP encryption certificate.
+1. Signing private keys are generated in the token and never written to JKS, PKCS12, PEM, or the database.
+2. Assertions are **signed** with the IdP token key and **encrypted** (when enabled) with the registered SP encryption certificate.
 3. PKCS#11 keeps key *material* in the token; JVM objects, handles, and providers still exist. Do not claim private keys never touch the Java heap.
 4. Unregistered SPs receive no assertions. ACS URLs are allow-listed, never taken from the request alone.
-5. `ROLE_MFA_PENDING` is not a fully authenticated state and cannot issue SAML assertions.
+5. `MFA_PENDING` is not a fully authenticated state and cannot issue SAML assertions.
 6. Replay detection, sessions, lockouts, and protocol correlation are stored in PostgreSQL so multiple instances cannot bypass them.
 7. CSRF is not disabled globally. SAML POST bindings are explicit exceptions with compensating SAML validation.
 
