@@ -18,7 +18,11 @@ public abstract class PostgresIntegrationTest {
         jdbcTemplate.execute(
                 """
                 TRUNCATE password_history, user_roles, users, auth_source_throttle,
-                         audit_events, admin_bootstrap RESTART IDENTITY CASCADE
+                         audit_events, admin_bootstrap, mfa_secrets, recovery_codes,
+                         idp_sessions, sp_sessions, logout_correlation, replay_cache,
+                         persistent_nameids, attribute_mappings, sp_certificates, sp_acs,
+                         sp_slo, service_providers, SPRING_SESSION_ATTRIBUTES, SPRING_SESSION
+                         RESTART IDENTITY CASCADE
                 """);
     }
 }

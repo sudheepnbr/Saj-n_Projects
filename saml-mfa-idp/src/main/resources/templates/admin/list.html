@@ -1,61 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Users</title>
-    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+    <th:block th:replace="~{fragments/chrome :: head('Users')}"/>
 </head>
 <body>
-<header class="bar">
-    <div class="brand" th:text="${displayName}">OIH Local Identity Provider</div>
-    <nav>
-        <a th:href="@{/account}">Account</a>
-        <a th:href="@{/admin}">Admin</a>
-        <form class="inline" th:action="@{/logout}" method="post">
-            <button type="submit">Sign out</button>
-        </form>
-    </nav>
-</header>
+<header th:replace="~{fragments/chrome :: appbar('users', true)}"></header>
 <main class="wrap">
+    <div class="page-head">
+        <div>
+            <p class="eyebrow">Administration</p>
+            <h1>Users</h1>
+            <p>Local directory accounts. Disabled and locked users cannot obtain a SAML assertion.</p>
+        </div>
+        <a class="btn" th:href="@{/admin/users/new}">Create user</a>
+    </div>
     <p class="flash ok" th:if="${info}" th:text="${info}"></p>
     <p class="flash err" th:if="${error}" th:text="${error}"></p>
-    <h1>Users</h1>
-    <p><a class="button" th:href="@{/admin/users/new}">Create user</a></p>
-    <table>
-        <thead>
-        <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Enabled</th>
-            <th>Locked until</th>
-            <th>Roles</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="u : ${users}">
-            <td th:text="${u.username}">user</td>
-            <td th:text="${u.email}">email</td>
-            <td th:text="${u.enabled}">true</td>
-            <td th:text="${u.lockedUntil}">—</td>
-            <td>
-                <span th:each="r : ${u.roles}" th:text="${r.name} + ' '">USER</span>
-            </td>
-            <td class="actions">
-                <form th:if="${u.enabled}" th:action="@{/admin/users/{id}/disable(id=${u.id})}" method="post">
-                    <button type="submit">Disable</button>
-                </form>
-                <form th:unless="${u.enabled}" th:action="@{/admin/users/{id}/enable(id=${u.id})}" method="post">
-                    <button type="submit">Enable</button>
-                </form>
-                <form th:action="@{/admin/users/{id}/unlock(id=${u.id})}" method="post">
-                    <button type="submit">Unlock</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Locked until</th>
+                <th>Roles</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${users}">
+                <td th:text="${u.username}">user</td>
+                <td th:text="${u.email}">email</td>
+                <td>
+                    <span class="badge badge-ok" th:if="${u.enabled}">Enabled</span>
+                    <span class="badge badge-err" th:unless="${u.enabled}">Disabled</span>
+                    <span th:text="${u.enabled}" hidden="hidden">true</span>
+                </td>
+                <td th:text="${u.lockedUntil} != null ? ${u.lockedUntil} : '—'">—</td>
+                <td>
+                    <span class="badge" th:each="r : ${u.roles}" th:text="${r.name}">USER</span>
+                </td>
+                <td class="actions">
+                    <form th:if="${u.enabled}" th:action="@{/admin/users/{id}/disable(id=${u.id})}" method="post">
+                        <button type="submit">Disable</button>
+                    </form>
+                    <form th:unless="${u.enabled}" th:action="@{/admin/users/{id}/enable(id=${u.id})}" method="post">
+                        <button class="btn-secondary" type="submit">Enable</button>
+                    </form>
+                    <form th:action="@{/admin/users/{id}/unlock(id=${u.id})}" method="post">
+                        <button class="btn-secondary" type="submit">Unlock</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </main>
 </body>
 </html>

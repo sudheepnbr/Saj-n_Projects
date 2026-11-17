@@ -1,6 +1,6 @@
 # Phase 2 — run the identity platform
 
-Phase 2 is a local-identity service: users, Argon2id passwords, persistent lockout, first-run `/setup`, `/login`, `/account`, and `/admin`. It does **not** issue SAML assertions, talk to an HSM, or enforce TOTP.
+Phase 2 is the local-identity service: users, Argon2id passwords, persistent lockout, first-run `/setup`, `/login`, `/account`, and `/admin`. Later phases on the same binary add HSM signing, TOTP, SAML SSO/SLO, and production checks.
 
 Production runtime target is **Java 25 LTS**. This codebase compiles to Java 21 bytecode so it also runs on Java 21–24.
 
@@ -20,7 +20,24 @@ CREATE DATABASE oih_idp_test OWNER oih;
 
 Copy [`.env.example`](../../.env.example) and export the variables, or rely on `application-dev.yml` defaults for local Postgres on `127.0.0.1:5432`.
 
-## Run
+## Run (recommended)
+
+From the **repository root** (see [`../../../START.md`](../../../START.md)):
+
+```bash
+./run.sh
+```
+
+That starts PostgreSQL and the IdP with Docker Compose. Open http://localhost:8080/setup with token `oih-local-setup`.
+
+## Run with Maven only
+
+```bash
+cd saml-mfa-idp
+./scripts/run-dev.sh
+```
+
+Or:
 
 ```bash
 cd saml-mfa-idp
@@ -29,7 +46,7 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
 On first boot the process logs a one-time setup token (development only). Open `/setup`, create the first administrator, then sign in at `/login`.
 
-`prod` refuses H2, in-memory URLs, default datasource passwords, and a missing `OIH_SETUP_TOKEN`.
+`prod` refuses H2, in-memory URLs, default datasource passwords, a missing `OIH_SETUP_TOKEN`, software token mode, a missing HSM PIN / TOTP wrap key, and non-HTTPS entity ID / base URL.
 
 ## Test
 

@@ -1,0 +1,70 @@
+# Production-shaped stack: PostgreSQL + SoftHSM IdP + Caddy TLS proxy.
+# 1. cp deploy/env.prod.example .env.prod
+# 2. Fill secrets (see PRODUCTION.md)
+# 3. Point DNS for OIH_PUBLIC_HOST at this host
+# 4. docker compose --env-file .env.prod -f docker-compose.prod.yml up --build -d
+#
+# SoftHSM is single-node. Do not scale the idp service.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - oih-idp-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  idp:
+    build:
+      context: ./saml-mfa-idp
+      dockerfile: Dockerfile.prod
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      OIH_SETUP_TOKEN: ${OIH_SETUP_TOKEN}
+      OIH_ENTITY_ID: ${OIH_ENTITY_ID}
+      OIH_BASE_URL: ${OIH_BASE_URL}
+      OIH_TOTP_WRAP_KEY: ${OIH_TOTP_WRAP_KEY}
+      OIH_HSM_PIN: ${OIH_HSM_PIN}
+      OIH_HSM_SO_PIN: ${OIH_HSM_SO_PIN}
+      OIH_HSM_LIBRARY: ${OIH_HSM_LIBRARY:-/usr/lib/x86_64-linux-gnu/softhsm/libsofthsm2.so}
+      OIH_HSM_SLOT_LIST_INDEX: ${OIH_HSM_SLOT_LIST_INDEX:-0}
+    volumes:
+      - oih-idp-hsm:/var/lib/softhsm/tokens
+    depends_on:
+      db:
+        condition: service_healthy
+    expose:
+      - "8080"
+
+  proxy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      OIH_PUBLIC_HOST: ${OIH_PUBLIC_HOST}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - oih-idp-caddy:/data
+      - oih-idp-caddy-config:/config
+    depends_on:
+      - idp
+
+volumes:
+  oih-idp-pg:
+  oih-idp-hsm:
+  oih-idp-caddy:
+  oih-idp-caddy-config:

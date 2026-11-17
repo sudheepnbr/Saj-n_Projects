@@ -1,13 +1,19 @@
 package com.oih.idp.web.security;
 
 import com.oih.idp.identity.domain.User;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class IdpUserPrincipal implements UserDetails {
+public class IdpUserPrincipal implements UserDetails, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private final UUID userId;
     private final String username;
@@ -18,9 +24,9 @@ public class IdpUserPrincipal implements UserDetails {
         this.userId = user.getId();
         this.username = user.getUsername();
         this.enabled = user.isEnabled();
-        this.authorities = user.getRoles().stream()
+        this.authorities = new ArrayList<>(user.getRoles().stream()
                 .map(role -> (GrantedAuthority) new SimpleGrantedAuthority("ROLE_" + role.getName()))
-                .toList();
+                .toList());
     }
 
     public UUID getUserId() {

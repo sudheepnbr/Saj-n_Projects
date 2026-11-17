@@ -34,6 +34,20 @@ public class ProductionGuard implements ApplicationRunner {
         if (setupToken.isBlank() || "change-me".equals(setupToken)) {
             throw new IllegalStateException("Production requires a unique OIH_SETUP_TOKEN.");
         }
+        if (!"pkcs11".equals(environment.getProperty("idp.crypto.token", ""))) {
+            throw new IllegalStateException("Production requires PKCS#11 token mode.");
+        }
+        if (environment.getProperty("idp.crypto.pin", "").isBlank()) {
+            throw new IllegalStateException("Production requires OIH_HSM_PIN.");
+        }
+        if (environment.getProperty("idp.mfa.envelope-key", "").isBlank()) {
+            throw new IllegalStateException("Production requires OIH_TOTP_WRAP_KEY.");
+        }
+        String entityId = environment.getProperty("idp.entity-id", "");
+        String baseUrl = environment.getProperty("idp.base-url", "");
+        if (!entityId.startsWith("https://") || !baseUrl.startsWith("https://")) {
+            throw new IllegalStateException("Production requires HTTPS entity ID and base URL.");
+        }
     }
 
     private boolean isProd() {

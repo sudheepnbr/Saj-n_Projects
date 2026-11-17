@@ -26,11 +26,14 @@ Supporting material:
 - [Maven dependency design](reference/maven-dependency-design.md)
 - [SoftHSM2 runbook](runbooks/softhsm2.md)
 - [Phase 2 identity runbook](runbooks/phase2-identity.md)
+- [Operations guide](runbooks/operations.md)
+- [Interop notes](runbooks/interop-notes.md)
+- [FortiGate IPsec SAML (IdP, FortiGate, FortiClient)](../../FORTIGATE.md)
 - [ADRs](adr/README.md)
 
 ## Review gate
 
-Phase 1 architecture is on `main`. Phase 2 implements the identity platform in this repository. Later phases still require the previous phase’s acceptance criteria.
+Phase 1 architecture is on `main`. Phases 2–7 are implemented in this repository.
 
 Phase 1 approval meant:
 

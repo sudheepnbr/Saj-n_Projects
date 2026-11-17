@@ -1,0 +1,19 @@
+FROM maven:3.9.11-eclipse-temurin-21 AS build
+WORKDIR /src
+COPY pom.xml .
+COPY src src
+RUN mvn -q -DskipTests package
+
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends softhsm2 ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd --system --uid 10001 --create-home idp \
+    && mkdir -p /var/lib/softhsm/tokens \
+    && chown -R idp:idp /var/lib/softhsm /app
+COPY --from=build /src/target/oih-idp-0.3.0-SNAPSHOT.jar /app/idp.jar
+COPY scripts/prod-entrypoint.sh /app/prod-entrypoint.sh
+RUN chmod 0755 /app/prod-entrypoint.sh
+EXPOSE 8080
+ENTRYPOINT ["/app/prod-entrypoint.sh"]

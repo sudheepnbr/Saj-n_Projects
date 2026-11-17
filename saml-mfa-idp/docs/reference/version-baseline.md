@@ -21,7 +21,8 @@ Verified **16 November 2026**. Production baseline uses only GA artifacts.
 | H2 (non-default) | 2.4.240 | Boot 4.1.2 BOM |
 | Testcontainers | 2.0.5 | Boot 4.1.2 BOM |
 | Logback | 1.5.38 | Boot 4.1.2 BOM |
-| OpenSAML | **5.2.3** | [Shibboleth Nexus](https://build.shibboleth.net/maven/releases/org/opensaml/opensaml-bom/5.2.3/) (19 Jun 2026) |
+| OpenSAML | **5.2.3** | Architecture pin ([Shibboleth Nexus](https://build.shibboleth.net/maven/releases/org/opensaml/opensaml-bom/5.2.3/)); runtime is Apache Santuario, ADR 0011 |
+| Apache Santuario xmlsec | **4.0.4** | Maven Central; XML Signature / Encryption used by the IdP |
 | Bouncy Castle | pin at implementation; required by Argon2id | Spring Security docs |
 | SoftHSM | 2.6.x | Distro package |
 | PostgreSQL server | 16 or 17 | Operations choice |

@@ -49,7 +49,7 @@ erDiagram
 
 | Attribute | Production |
 | --------- | ---------- |
-| Name | `OIHIDPSESS` (configurable) |
+| Name | `IMTIDPSESS` (configurable) |
 | HttpOnly | true |
 | Secure | true |
 | Path | `/` |

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{fragments/chrome :: head('Signing keys')}"/>
+</head>
+<body>
+<header th:replace="~{fragments/chrome :: appbar('keys', true)}"></header>
+<main class="wrap">
+    <div class="page-head">
+        <div>
+            <p class="eyebrow">Cryptography</p>
+            <h1>Signing keys</h1>
+            <p>Private keys are generated inside the token and never exported. Rotate by creating NEXT, then activating it.</p>
+        </div>
+        <div class="btn-row">
+            <form th:action="@{/admin/keys/next}" method="post">
+                <button class="btn btn-secondary" type="submit">Generate NEXT</button>
+            </form>
+            <form th:action="@{/admin/keys/activate}" method="post">
+                <button class="btn" type="submit">Activate NEXT</button>
+            </form>
+        </div>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Status</th>
+                <th>Label</th>
+                <th>Fingerprint</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="k : ${keys}">
+                <td>
+                    <span class="badge" th:classappend="${k.status.name() == 'ACTIVE'} ? ' badge-ok' : (${k.status.name() == 'NEXT'} ? ' badge-info' : ' badge-warn')" th:text="${k.status}">ACTIVE</span>
+                </td>
+                <td th:text="${k.label}">label</td>
+                <td class="mono" th:text="${k.fingerprintSha256}">fp</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

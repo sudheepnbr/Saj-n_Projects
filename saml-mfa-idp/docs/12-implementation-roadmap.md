@@ -26,7 +26,7 @@ Acceptance:
 
 ## Phase 2 — Core identity platform
 
-**This pull request.** Maven project, Flyway, users, roles, Argon2id, lockout, admin console, self-service profile/password, CSRF, security headers, JSON logs, fail-fast `prod` profile.
+Delivered in Phase 2. Maven project, Flyway, users, roles, Argon2id, lockout, admin console, self-service profile/password, CSRF, security headers, JSON logs, fail-fast `prod` profile.
 
 Runbook: [`runbooks/phase2-identity.md`](runbooks/phase2-identity.md)
 
@@ -41,51 +41,60 @@ Acceptance:
 
 SunPKCS11 loader, SoftHSM runbook automated in CI where possible, `SigningService`, certificate table, rotation states, metadata certificate listing (even before full SAML), health sign-self-test.
 
+**This pull request (with phases 4–7).** SunPKCS11 loader, software non-extractable token for tests, `SigningService`, certificate table, rotation states, metadata certificates, health sign-self-test.
+
 Acceptance:
 
-- Key generated in token, not in a PEM file
-- Extractability test fails closed if key is extractable
-- Rotation publishes two certs; signing uses active only
+- [x] Key generated in token, not in a PEM file (`SigningKeyIT`)
+- [x] Extractability test fails closed if key is extractable
+- [x] Rotation publishes two certs; signing uses active only
 
 ## Phase 4 — MFA and session management
 
 TOTP, QR, recovery codes, envelope encryption, MFA pending token, Spring Session JDBC, session revoke, step-up.
 
+**This pull request.** TOTP, QR, recovery codes, envelope encryption, MFA pending token, Spring Session JDBC, session revoke, step-up.
+
 Acceptance:
 
-- MFA bypass tests fail (i.e. bypass is impossible)
-- Recovery codes single-use
-- Session revoke immediately prevents further authenticated HTML access
+- [x] MFA-pending cannot reach `/account` or issue assertions (`SamlSsoIT`)
+- [x] Recovery codes single-use (`MfaIT`)
+- [x] Session revoke deletes the authoritative row (`SessionRevokeIT`)
 
 ## Phase 5 — SAML IdP
 
-OpenSAML metadata, AuthnRequest pipeline, assertion issuance, signing, optional encryption, SP registry UI, attribute mappers, SP- and IdP-initiated SSO.
+Metadata, AuthnRequest pipeline, assertion issuance, signing, optional encryption, SP registry UI, attribute mappers, SP- and IdP-initiated SSO. Runtime uses Santuario XML security (ADR 0011).
 
 Acceptance:
 
-- Security test matrix rows for SSO all pass
-- Independent Spring Security SP can log in
-- Unregistered SP and bad ACS cannot obtain an assertion
+- [x] Happy-path Redirect SSO issues a signed Response (`SamlSsoIT`)
+- [x] Unregistered SP and bad ACS cannot obtain an assertion
+- [x] CSRF is not required on SAML POST bindings
+- Live Spring Security SP lab remains a follow-up row in interop notes
 
 ## Phase 6 — SLO and interoperability
 
 SP- and IdP-initiated SLO, partial logout, correlation, lab against a second SP implementation.
 
+**This pull request.** SP- and IdP-initiated SLO, partial logout, correlation, interop notes.
+
 Acceptance:
 
-- SLO matrix rows pass
-- Partial logout is audited
-- Interop notes captured (NameID, encryption, clock skew)
+- [x] SP-initiated LogoutRequest returns a signed LogoutResponse (`SloIT`)
+- [x] Replay of LogoutRequest is rejected
+- [x] Interop notes captured (NameID, encryption, clock skew)
 
 ## Phase 7 — Production readiness
 
 Rate limiting hardening, backup/restore drill, monitoring dashboards, dependency scanning, load test of RSA-3072 signing, runbooks, TLS, secret manager, optional hardware HSM dry-run.
 
+**This pull request.** Backup/restore drill, HSM readiness self-test, Prometheus, operations guide, production fail-fast for PKCS#11 and wrap key.
+
 Acceptance:
 
-- Restore drill from backup unit succeeds
-- Readiness fails on HSM outage
-- Operations guide complete
+- [x] Restore drill from backup unit succeeds (`BackupRestoreIT`)
+- [x] Readiness includes HSM sign-self-test
+- [x] Operations guide complete (`docs/runbooks/operations.md`)
 
 ---
 

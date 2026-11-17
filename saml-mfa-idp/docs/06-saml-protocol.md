@@ -1,6 +1,6 @@
 # SAML 2.0 protocol design
 
-Implementation library: **OpenSAML 5.2.3**. No hand-built XML. No Spring Security IdP APIs.
+Architecture pin: **OpenSAML 5.2.3**. Runtime in this repository: hardened DOM + Apache Santuario 4.0.4 (see [ADR 0011](adr/0011-xml-security-runtime.md)). No Spring Security IdP APIs.
 
 ## Endpoints
 

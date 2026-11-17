@@ -7,7 +7,6 @@ import com.oih.idp.identity.domain.Role;
 import com.oih.idp.identity.repo.AdminBootstrapRepository;
 import com.oih.idp.identity.repo.UserRepository;
 import com.oih.idp.policy.Argon2PasswordHasher;
-import jakarta.annotation.PostConstruct;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Set;
@@ -49,26 +48,38 @@ public class SetupService {
         this.environment = environment;
     }
 
-    @PostConstruct
+    @Transactional
     public void ensureBootstrapToken() {
         if (users.count() > 0) {
             return;
         }
-        if (bootstrap.existsByConsumedAtIsNull()) {
+        String configured = properties.getSetup().getToken();
+        var pending = bootstrap.findFirstByConsumedAtIsNullOrderByCreatedAtAsc();
+        if (configured != null && !configured.isBlank()) {
+            if (pending.isPresent() && hasher.matches(configured, pending.get().getTokenHash())) {
+                log.info("First-run setup is waiting at /setup (configured OIH_SETUP_TOKEN).");
+                return;
+            }
+            pending.ifPresent(row -> {
+                row.consume();
+                bootstrap.save(row);
+            });
+            bootstrap.save(new AdminBootstrap(hasher.hash(configured)));
+            log.info("First-run setup is waiting at /setup. Use OIH_SETUP_TOKEN (see START.md).");
             return;
         }
-        String token = properties.getSetup().getToken();
-        if (token == null || token.isBlank()) {
-            byte[] bytes = new byte[24];
-            RANDOM.nextBytes(bytes);
-            token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
-            if (!environment.acceptsProfiles(Profiles.of("prod", "production"))) {
-                log.warn("First-run setup token (dev only): {}", token);
-            } else {
-                log.warn("OIH_SETUP_TOKEN was empty; a token was generated but will not be logged in production.");
-            }
+        if (pending.isPresent()) {
+            return;
         }
+        byte[] bytes = new byte[24];
+        RANDOM.nextBytes(bytes);
+        String token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
         bootstrap.save(new AdminBootstrap(hasher.hash(token)));
+        if (!environment.acceptsProfiles(Profiles.of("prod", "production"))) {
+            log.warn("First-run setup token (dev only): {}", token);
+        } else {
+            log.warn("OIH_SETUP_TOKEN was empty; a token was generated but will not be logged in production.");
+        }
     }
 
     public boolean setupRequired() {

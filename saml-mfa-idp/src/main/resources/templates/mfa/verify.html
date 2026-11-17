@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{fragments/chrome :: head('Authenticator')}"/>
+</head>
+<body class="auth">
+<div class="auth-shell">
+    <aside class="auth-aside">
+        <div class="brand-lockup">
+            <span th:replace="~{fragments/chrome :: mark}"></span>
+            <span class="brand-text">
+                <strong th:text="${displayName}">InfraMindTech</strong>
+                <span class="brand-sub">Two-factor authentication</span>
+            </span>
+        </div>
+        <h2>Verify it is you</h2>
+        <p>Password alone is not enough for this account. Enter a 6-digit code from your authenticator app.</p>
+        <ul class="trust-list">
+            <li>Codes rotate every 30 seconds</li>
+            <li>A used code cannot be replayed</li>
+            <li>Recovery codes are single-use</li>
+        </ul>
+    </aside>
+    <main class="auth-main">
+        <div class="card">
+            <p class="eyebrow">MFA</p>
+            <h1>Two-factor authentication</h1>
+            <p>Open your authenticator app and enter the current code.</p>
+            <p class="flash err" th:if="${error}" th:text="${error}"></p>
+            <form th:action="@{/mfa/verify}" method="post">
+                <label>Authenticator code
+                    <input type="text" name="code" inputmode="numeric" autocomplete="one-time-code" required maxlength="8"/>
+                </label>
+                <button class="btn btn-block" type="submit">Verify</button>
+            </form>
+        </div>
+        <div class="card stack-gap">
+            <h2>Lost your device?</h2>
+            <p>Use a one-time recovery code issued at enrollment.</p>
+            <form th:action="@{/mfa/verify}" method="post">
+                <input type="hidden" name="recovery" value="true"/>
+                <label>Recovery code
+                    <input type="text" name="code" autocomplete="off"/>
+                </label>
+                <button class="btn btn-secondary btn-block" type="submit">Use recovery code</button>
+            </form>
+        </div>
+        <p class="legal">MFA-pending sessions cannot issue SAML assertions</p>
+    </main>
+</div>
+</body>
+</html>

@@ -125,12 +125,18 @@ public class IdentityService {
         users.save(user);
     }
 
+    @Transactional(readOnly = true)
     public User requireUser(UUID userId) {
-        return users.findById(userId).orElseThrow(() -> new IdentityException("User not found."));
+        User user = users.findById(userId).orElseThrow(() -> new IdentityException("User not found."));
+        user.getRoles().size();
+        return user;
     }
 
+    @Transactional(readOnly = true)
     public List<User> listUsers() {
-        return users.findAll();
+        List<User> all = users.findAll();
+        all.forEach(user -> user.getRoles().size());
+        return all;
     }
 
     public long userCount() {

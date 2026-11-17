@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:replace="~{fragments/chrome :: head('Continue to application')}"/>
+</head>
+<body class="saml-continue">
+<div class="card">
+    <span th:replace="~{fragments/chrome :: mark}"></span>
+    <h1>Continue</h1>
+    <p>Returning you to the application. If nothing happens, continue below.</p>
+    <form method="post" th:attr="action=${acs}">
+        <input type="hidden" name="SAMLResponse" th:value="${samlResponse}"/>
+        <input type="hidden" name="RelayState" th:if="${relayState}" th:value="${relayState}"/>
+        <noscript><button class="btn" type="submit">Continue</button></noscript>
+    </form>
+</div>
+<script th:src="@{/js/saml-continue.js}"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="head(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="color-scheme" content="light"/>
+    <meta name="theme-color" content="#0B1F3A"/>
+    <title th:text="${title} + ' | InfraMindTech'">InfraMindTech</title>
+    <link rel="icon" th:href="@{/favicon.png}" type="image/png"/>
+    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+</th:block>
+
+<span th:fragment="mark" class="mark">
+    <img th:src="@{/img/imt-logo.png}" alt="InfraMindTech" width="175" height="80"/>
+</span>
+
+<header th:fragment="appbar(active, showAdmin)" class="appbar">
+    <a class="brand-lockup" th:href="@{/account}">
+        <span th:replace="~{fragments/chrome :: mark}"></span>
+        <span class="brand-text">
+            <strong th:text="${displayName}">InfraMindTech</strong>
+            <span class="brand-sub">Identity Provider</span>
+        </span>
+    </a>
+    <nav class="appbar-nav" aria-label="Primary">
+        <a th:href="@{/account}" th:classappend="${active == 'account'} ? ' is-active'" th:attr="aria-current=${active == 'account'} ? 'page' : null">Account</a>
+        <th:block th:if="${showAdmin}">
+            <a th:href="@{/admin}" th:classappend="${active == 'users'} ? ' is-active'">Users</a>
+            <a th:href="@{/admin/sp}" th:classappend="${active == 'sp'} ? ' is-active'">Service providers</a>
+            <a th:href="@{/admin/keys}" th:classappend="${active == 'keys'} ? ' is-active'">Signing keys</a>
+        </th:block>
+    </nav>
+    <div class="appbar-actions">
+        <a th:if="${showAdmin and active == 'account'}" class="btn btn-ghost" th:href="@{/admin}">Admin</a>
+        <form class="inline" th:if="${active == 'account'}" th:action="@{/account/logout-global}" method="post">
+            <button class="btn btn-ghost" type="submit">Sign out everywhere</button>
+        </form>
+        <form class="inline" th:action="@{/logout}" method="post">
+            <button class="btn btn-secondary" type="submit">Sign out</button>
+        </form>
+    </div>
+</header>
+</body>
+</html>

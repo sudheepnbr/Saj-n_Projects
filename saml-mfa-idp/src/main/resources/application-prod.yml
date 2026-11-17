@@ -5,12 +5,28 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD}
 
 server:
+  forward-headers-strategy: framework
   servlet:
     session:
       cookie:
         secure: true
-        same-site: lax
+        same-site: none
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
 
 idp:
   setup:
     token: ${OIH_SETUP_TOKEN}
+  entity-id: ${OIH_ENTITY_ID}
+  base-url: ${OIH_BASE_URL}
+  crypto:
+    token: pkcs11
+    library: ${OIH_HSM_LIBRARY:/usr/lib/x86_64-linux-gnu/softhsm/libsofthsm2.so}
+    pin: ${OIH_HSM_PIN}
+    slot-list-index: ${OIH_HSM_SLOT_LIST_INDEX:0}
+  mfa:
+    envelope-key: ${OIH_TOTP_WRAP_KEY}
