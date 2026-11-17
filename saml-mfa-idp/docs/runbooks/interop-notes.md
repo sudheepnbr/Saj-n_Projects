@@ -11,3 +11,5 @@ Captured against the IdP’s DOM + Apache Santuario 4.0.4 stack (OpenSAML 5.2.3 
 | ACS | Allow-list only | Wrong ACS never yields an assertion |
 | SLO | Front-channel POST/Redirect; default status `Success` even on partial | Partial logout is audited as `SLO_PARTIAL` |
 | POST binding | CSRF disabled only on `/saml2/idp/sso` and `/saml2/idp/slo` | Compensating SAML checks still apply |
+
+FortiGate **IPsec** (SAML user object + dialup IKEv2, not SSL-VPN): [`../../../FORTIGATE.md`](../../../FORTIGATE.md). Map FortiGate username to attribute `uid`. NameID is a pairwise UUID.

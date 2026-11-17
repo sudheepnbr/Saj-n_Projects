@@ -34,6 +34,8 @@ cd Saj-n_Projects
 
 Then open http://localhost:8080/setup with token `oih-local-setup`.
 
+**FortiGate IPsec VPN (SAML):** [`FORTIGATE.md`](FORTIGATE.md) — IdP settings, FortiGate IPsec (not SSL-VPN), and FortiClient.
+
 **Production** (HTTPS, PKCS#11, unique secrets): [`PRODUCTION.md`](PRODUCTION.md) and [`docs/IMT-IdP-Setup-Instructions.pdf`](docs/IMT-IdP-Setup-Instructions.pdf).
 
 ## License

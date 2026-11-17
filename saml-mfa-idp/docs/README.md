@@ -28,6 +28,7 @@ Supporting material:
 - [Phase 2 identity runbook](runbooks/phase2-identity.md)
 - [Operations guide](runbooks/operations.md)
 - [Interop notes](runbooks/interop-notes.md)
+- [FortiGate IPsec SAML (IdP, FortiGate, FortiClient)](../../FORTIGATE.md)
 - [ADRs](adr/README.md)
 
 ## Review gate

@@ -225,7 +225,7 @@ On the IdP:
 1. Admin → Service providers → register entity ID, ACS (POST), optional SLO.
 2. Copy IdP metadata from `/saml2/idp/metadata`.
 
-On the SP (Shibboleth, SimpleSAMLphp, FortiGate SSL VPN SAML, custom app):
+On the SP (Shibboleth, SimpleSAMLphp, FortiGate **IPsec** SAML, custom app). For FortiGate IPsec (not SSL-VPN) see [`FORTIGATE.md`](FORTIGATE.md):
 
 1. Import IdP metadata or set:
    - SSO URL: `https://idp.example.com/saml2/idp/sso`
