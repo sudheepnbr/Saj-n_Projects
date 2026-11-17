@@ -1,9 +1,9 @@
-# IMT InfraMindTech Identity Provider — setup and production
+# InfraMindTech Identity Provider — setup and production
 
 Use this document to run the full stack in a **lab** and to cut over to **production**.
 The downloadable ZIP contains the same files as branch `cursor/saml-mfa-idp-phases-3-7-04b9`.
 
-Product: **IMT InfraMindTech Identity Provider** — SAML 2.0 IdP for locally managed users, TOTP MFA, PKCS#11 signing, PostgreSQL. Vendor: **InfraMindTech**.
+Product: **InfraMindTech Identity Provider** — SAML 2.0 IdP for locally managed users, TOTP MFA, PKCS#11 signing, PostgreSQL. Vendor: **InfraMindTech**.
 
 This product does **not** broker LDAP, Active Directory, Entra ID, social login, or OIDC.
 

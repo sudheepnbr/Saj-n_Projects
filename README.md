@@ -8,7 +8,7 @@ All work for these projects stays in this repository.
 
 | Path | Project | Status |
 | ---- | ------- | ------ |
-| [`saml-mfa-idp/`](saml-mfa-idp/) | **IMT InfraMindTech** identity provider — local-identity SAML 2.0 IdP (Java 25, Spring Boot 4.1, SoftHSM2, TOTP MFA, SAML SSO/SLO) | Phases 1–7 |
+| [`saml-mfa-idp/`](saml-mfa-idp/) | **InfraMindTech** identity provider — local-identity SAML 2.0 IdP (Java 25, Spring Boot 4.1, SoftHSM2, TOTP MFA, SAML SSO/SLO) | Phases 1–7 |
 
 ## Run it
 
@@ -24,7 +24,7 @@ Then open http://localhost:8080/setup with token `oih-local-setup`.
 
 **Production** (HTTPS, PKCS#11, unique secrets): [`PRODUCTION.md`](PRODUCTION.md) and [`docs/IMT-IdP-Setup-Instructions.pdf`](docs/IMT-IdP-Setup-Instructions.pdf).
 
-## IMT InfraMindTech Identity Provider
+## InfraMindTech Identity Provider
 
 Start at [`START.md`](START.md), [`saml-mfa-idp/README.md`](saml-mfa-idp/README.md), and [`saml-mfa-idp/docs/README.md`](saml-mfa-idp/docs/README.md).
 

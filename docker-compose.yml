@@ -1,4 +1,4 @@
-# Local full stack: PostgreSQL + IMT InfraMindTech Identity Provider
+# Local full stack: PostgreSQL + InfraMindTech Identity Provider
 # Usage:  docker compose up --build
 # App:    http://localhost:8080
 # Setup:  http://localhost:8080/setup   token: oih-local-setup

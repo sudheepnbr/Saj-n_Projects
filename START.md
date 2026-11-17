@@ -1,4 +1,4 @@
-# Run the IMT InfraMindTech Identity Provider
+# Run the InfraMindTech Identity Provider
 
 This is the **ready-to-run** entry point. Use the branch
 `cursor/saml-mfa-idp-phases-3-7-04b9` (or [PR #2](https://github.com/sudheepnbr/Saj-n_Projects/pull/2)).

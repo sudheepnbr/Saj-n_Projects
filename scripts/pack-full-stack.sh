@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Build IMT-InfraMindTech-Identity-Provider-full-stack.zip (source + docs, no .git / target).
+# Build InfraMindTech-Identity-Provider-full-stack.zip (source + docs, no .git / target).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 STAGE="$(mktemp -d)"
-NAME="IMT-InfraMindTech-Identity-Provider"
+NAME="InfraMindTech-Identity-Provider"
 DEST="${1:-$ROOT/dist/${NAME}-full-stack.zip}"
 mkdir -p "$(dirname "$DEST")"
 

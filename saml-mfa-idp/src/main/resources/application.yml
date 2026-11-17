@@ -48,7 +48,7 @@ management:
           include: readinessState,hsm
 
 idp:
-  display-name: IMT InfraMindTech
+  display-name: InfraMindTech
   password:
     min-length: 12
     max-length: 128

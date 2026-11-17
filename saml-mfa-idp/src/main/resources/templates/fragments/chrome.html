@@ -6,20 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="color-scheme" content="light"/>
     <meta name="theme-color" content="#0B1F3A"/>
-    <title th:text="${title} + ' | IMT InfraMindTech'">IMT InfraMindTech</title>
+    <title th:text="${title} + ' | InfraMindTech'">InfraMindTech</title>
     <link rel="icon" th:href="@{/favicon.png}" type="image/png"/>
     <link rel="stylesheet" th:href="@{/css/idp.css}"/>
 </th:block>
 
 <span th:fragment="mark" class="mark">
-    <img th:src="@{/img/imt-logo.png}" alt="IMT InfraMindTech" width="181" height="101"/>
+    <img th:src="@{/img/imt-logo.png}" alt="InfraMindTech" width="181" height="101"/>
 </span>
 
 <header th:fragment="appbar(active, showAdmin)" class="appbar">
     <a class="brand-lockup" th:href="@{/account}">
         <span th:replace="~{fragments/chrome :: mark}"></span>
         <span class="brand-text">
-            <strong th:text="${displayName}">IMT InfraMindTech</strong>
+            <strong th:text="${displayName}">InfraMindTech</strong>
             <span class="brand-sub">Identity Provider</span>
         </span>
     </a>

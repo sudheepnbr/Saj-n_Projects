@@ -2,7 +2,7 @@
 
 ## Product
 
-IMT InfraMindTech Identity Provider is a **local-identity-only SAML 2.0 Identity Provider** from InfraMindTech. It is designed as an enterprise identity product, not a demonstration. The first deployment may be a single instance; the architecture assumes multiple instances from day one.
+InfraMindTech Identity Provider is a **local-identity-only SAML 2.0 Identity Provider**. It is designed as an enterprise identity product, not a demonstration. The first deployment may be a single instance; the architecture assumes multiple instances from day one.
 
 ## Architectural recommendation
 
