@@ -1,37 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Create user</title>
-    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+    <th:block th:replace="~{fragments/chrome :: head('Create user')}"/>
 </head>
 <body>
-<header class="bar">
-    <div class="brand" th:text="${displayName}">OIH Local Identity Provider</div>
-    <nav>
-        <a th:href="@{/account}">Account</a>
-        <a th:href="@{/admin}">Admin</a>
-    </nav>
-</header>
+<header th:replace="~{fragments/chrome :: appbar('users', true)}"></header>
 <main class="wrap">
+    <div class="page-head">
+        <div>
+            <p class="eyebrow">Administration</p>
+            <h1>Create user</h1>
+            <p>Every account also receives the USER role. Choose an extra role if this person administers the IdP.</p>
+        </div>
+        <a class="btn btn-secondary" th:href="@{/admin}">Back to users</a>
+    </div>
     <p class="flash err" th:if="${error}" th:text="${error}"></p>
-    <h1>Create user</h1>
-    <form class="card" th:action="@{/admin/users}" method="post">
-        <label>Username
-            <input type="text" name="username" required/>
-        </label>
-        <label>Email
-            <input type="email" name="email" required/>
-        </label>
-        <label>First name
-            <input type="text" name="firstName" required/>
-        </label>
-        <label>Last name
-            <input type="text" name="lastName" required/>
-        </label>
+    <form class="card card-narrow" th:action="@{/admin/users}" method="post">
+        <div class="grid-2">
+            <label>Username
+                <input type="text" name="username" required autocomplete="off"/>
+            </label>
+            <label>Email
+                <input type="email" name="email" required/>
+            </label>
+            <label>First name
+                <input type="text" name="firstName" required/>
+            </label>
+            <label>Last name
+                <input type="text" name="lastName" required/>
+            </label>
+        </div>
         <label>Password
             <input type="password" name="password" required minlength="12" autocomplete="new-password"/>
+            <span class="hint">Minimum 12 characters, three character classes.</span>
         </label>
         <label>Role
             <select name="role">
@@ -41,7 +42,7 @@
                 <option value="AUDITOR">AUDITOR</option>
             </select>
         </label>
-        <button type="submit">Create</button>
+        <button class="btn" type="submit">Create</button>
     </form>
 </main>
 </body>

@@ -1,92 +1,93 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Account</title>
-    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+    <th:block th:replace="~{fragments/chrome :: head('Account')}"/>
 </head>
 <body>
-<header class="bar">
-    <div class="brand" th:text="${displayName}">OIH Local Identity Provider</div>
-    <nav>
-        <a th:href="@{/account}">Account</a>
-        <a th:if="${admin}" th:href="@{/admin}">Admin</a>
-        <form class="inline" th:action="@{/account/logout-global}" method="post">
-            <button type="submit">Sign out everywhere</button>
-        </form>
-        <form class="inline" th:action="@{/logout}" method="post">
-            <button type="submit">Sign out</button>
-        </form>
-    </nav>
-</header>
+<header th:replace="~{fragments/chrome :: appbar('account', ${admin})}"></header>
 <main class="wrap">
+    <div class="page-head">
+        <div>
+            <p class="eyebrow">Directory</p>
+            <h1>Your account</h1>
+            <p>Signed in as <strong th:text="${user != null} ? ${user.username} : 'user'">user</strong>.</p>
+        </div>
+    </div>
     <p class="flash ok" th:if="${info}" th:text="${info}"></p>
     <p class="flash err" th:if="${error}" th:text="${error}"></p>
-    <h1>Your account</h1>
-    <p>Signed in as <strong th:text="${user != null} ? ${user.username} : 'user'">user</strong>.</p>
 
     <section class="card">
         <h2>Applications</h2>
-        <p th:if="${applications == null or #lists.isEmpty(applications)}">No service providers are registered yet.
+        <p>Launch a registered service provider with an IdP-initiated SAML sign-in.</p>
+        <div class="empty" th:if="${applications == null or #lists.isEmpty(applications)}">
+            No service providers are registered yet.
             <span th:if="${admin}">Open Admin - Service providers to add one.</span>
-        </p>
-        <table th:if="${applications != null and !#lists.isEmpty(applications)}">
-            <thead>
-            <tr>
-                <th>Application</th>
-                <th>Entity ID</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="app : ${applications}">
-                <td th:text="${app.displayName}">App</td>
-                <td th:text="${app.entityId}">https://sp</td>
-                <td>
-                    <a class="button" th:href="@{/saml2/idp/initiate(sp=${app.entityId})}">Sign in</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        </div>
+        <div class="table-wrap" th:if="${applications != null and !#lists.isEmpty(applications)}">
+            <table>
+                <thead>
+                <tr>
+                    <th>Application</th>
+                    <th>Entity ID</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="app : ${applications}">
+                    <td th:text="${app.displayName}">App</td>
+                    <td class="mono" th:text="${app.entityId}">https://sp</td>
+                    <td>
+                        <a class="btn" th:href="@{/saml2/idp/initiate(sp=${app.entityId})}">Sign in</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
 
-    <section class="card">
-        <h2>Authenticator (MFA)</h2>
-        <p th:if="${mfaEnrolled}">An authenticator is enrolled on this account. You will be asked for a code at sign-in.</p>
-        <p th:unless="${mfaEnrolled}">
-            MFA is <span th:text="${mfaPlatform} ? 'required for every sign-in' : 'optional'">optional</span>.
-            Enroll an authenticator app to add a second factor.
-        </p>
-        <p th:unless="${mfaEnrolled}"><a class="button" th:href="@{/mfa/enroll}">Enroll authenticator</a></p>
-    </section>
-
-    <section class="card">
-        <h2>Profile</h2>
-        <form th:action="@{/account/profile}" method="post">
-            <label>Email
-                <input type="email" name="email" th:value="${user != null} ? ${user.email} : ''" required/>
-            </label>
-            <label>First name
-                <input type="text" name="firstName" th:value="${user != null} ? ${user.firstName} : ''" required/>
-            </label>
-            <label>Last name
-                <input type="text" name="lastName" th:value="${user != null} ? ${user.lastName} : ''" required/>
-            </label>
-            <button type="submit">Save profile</button>
-        </form>
-    </section>
+    <div class="grid-2">
+        <section class="card">
+            <h2>Authenticator (MFA)</h2>
+            <p th:if="${mfaEnrolled}">An authenticator is enrolled on this account. You will be asked for a code at sign-in.</p>
+            <p th:unless="${mfaEnrolled}">
+                MFA is <span th:text="${mfaPlatform} ? 'required for every sign-in' : 'optional'">optional</span>.
+                Enroll an authenticator app to add a second factor.
+            </p>
+            <p th:if="${mfaEnrolled}"><span class="badge badge-ok">Enrolled</span></p>
+            <p th:unless="${mfaEnrolled}"><a class="btn" th:href="@{/mfa/enroll}">Enroll authenticator</a></p>
+        </section>
+        <section class="card">
+            <h2>Profile</h2>
+            <form th:action="@{/account/profile}" method="post">
+                <label>Email
+                    <input type="email" name="email" th:value="${user != null} ? ${user.email} : ''" required/>
+                </label>
+                <div class="grid-2">
+                    <label>First name
+                        <input type="text" name="firstName" th:value="${user != null} ? ${user.firstName} : ''" required/>
+                    </label>
+                    <label>Last name
+                        <input type="text" name="lastName" th:value="${user != null} ? ${user.lastName} : ''" required/>
+                    </label>
+                </div>
+                <button class="btn" type="submit">Save profile</button>
+            </form>
+        </section>
+    </div>
 
     <section class="card">
         <h2>Password</h2>
+        <p>Choose a unique password of at least 12 characters. Recent passwords cannot be reused.</p>
         <form th:action="@{/account/password}" method="post">
-            <label>Current password
-                <input type="password" name="currentPassword" required autocomplete="current-password"/>
-            </label>
-            <label>New password
-                <input type="password" name="newPassword" required autocomplete="new-password" minlength="12"/>
-            </label>
-            <button type="submit">Change password</button>
+            <div class="grid-2">
+                <label>Current password
+                    <input type="password" name="currentPassword" required autocomplete="current-password"/>
+                </label>
+                <label>New password
+                    <input type="password" name="newPassword" required autocomplete="new-password" minlength="12"/>
+                </label>
+            </div>
+            <button class="btn" type="submit">Change password</button>
         </form>
     </section>
 </main>

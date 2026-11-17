@@ -1,27 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Sign in</title>
-    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+    <th:block th:replace="~{fragments/chrome :: head('Sign in')}"/>
 </head>
-<body>
-<main class="card">
-    <h1 th:text="${displayName}">OIH Local Identity Provider</h1>
-    <p>Sign in with your local account.</p>
-    <p class="flash err" th:if="${error}" th:text="${error}"></p>
-    <p class="flash ok" th:if="${info}" th:text="${info}"></p>
-    <p class="flash ok" th:if="${param.setup}">Administrator account created. Sign in to continue.</p>
-    <form th:action="@{/login}" method="post">
-        <label>Username
-            <input type="text" name="username" autocomplete="username" required autofocus/>
-        </label>
-        <label>Password
-            <input type="password" name="password" autocomplete="current-password" required/>
-        </label>
-        <button type="submit">Sign in</button>
-    </form>
-</main>
+<body class="auth">
+<div class="auth-shell">
+    <aside class="auth-aside">
+        <a class="brand-lockup" th:href="@{/login}">
+            <span th:replace="~{fragments/chrome :: mark}"></span>
+            <span class="brand-text">
+                <strong th:text="${displayName}">OIH Local Identity Provider</strong>
+                <span class="brand-sub">Identity platform</span>
+            </span>
+        </a>
+        <h2>Secure access to registered applications</h2>
+        <p>Sign in with your local directory account. SAML assertions are issued only to service providers your administrators have allow-listed.</p>
+        <ul class="trust-list">
+            <li>Argon2id password hashing and lockout policy</li>
+            <li>Optional authenticator MFA (RFC 6238)</li>
+            <li>Signed SAML 2.0 assertions from PKCS#11 keys</li>
+        </ul>
+    </aside>
+    <main class="auth-main">
+        <div class="card">
+            <p class="eyebrow">Sign in</p>
+            <h1>Welcome back</h1>
+            <p class="lead">Use your organization username and password.</p>
+            <p class="flash err" th:if="${error}" th:text="${error}"></p>
+            <p class="flash ok" th:if="${info}" th:text="${info}"></p>
+            <p class="flash ok" th:if="${param.setup}">Administrator account created. Sign in to continue.</p>
+            <form th:action="@{/login}" method="post">
+                <label>Username
+                    <input type="text" name="username" autocomplete="username" required autofocus/>
+                </label>
+                <label>Password
+                    <input type="password" name="password" autocomplete="current-password" required/>
+                </label>
+                <button class="btn btn-block" type="submit">Sign in</button>
+            </form>
+        </div>
+        <p class="legal">OIH Local Identity Provider · All sign-in events are audited</p>
+    </main>
+</div>
 </body>
 </html>

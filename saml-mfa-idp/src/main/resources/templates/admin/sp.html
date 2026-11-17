@@ -1,60 +1,68 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Service providers</title>
-    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+    <th:block th:replace="~{fragments/chrome :: head('Service providers')}"/>
 </head>
 <body>
-<header class="bar">
-    <div class="brand" th:text="${displayName}">OIH Local Identity Provider</div>
-    <nav>
-        <a th:href="@{/account}">Account</a>
-        <a th:href="@{/admin}">Users</a>
-        <a th:href="@{/admin/sp}">Service providers</a>
-        <a th:href="@{/admin/keys}">Signing keys</a>
-        <form class="inline" th:action="@{/logout}" method="post">
-            <button type="submit">Sign out</button>
-        </form>
-    </nav>
-</header>
+<header th:replace="~{fragments/chrome :: appbar('sp', true)}"></header>
 <main class="wrap">
+    <div class="page-head">
+        <div>
+            <p class="eyebrow">SAML</p>
+            <h1>Service providers</h1>
+            <p>ACS URLs are allow-listed exactly. Unregistered issuers never receive an assertion.</p>
+        </div>
+        <a class="btn btn-secondary" th:href="@{/saml2/idp/metadata}">IdP metadata</a>
+    </div>
     <p class="flash ok" th:if="${info}" th:text="${info}"></p>
-    <h1>Service providers</h1>
     <section class="card">
         <h2>Register SP</h2>
-        <p>ACS URLs are allow-listed exactly. Unregistered issuers never receive an assertion.</p>
         <form th:action="@{/admin/sp}" method="post">
-            <label>Entity ID <input type="url" name="entityId" required/></label>
-            <label>Display name <input type="text" name="displayName" required/></label>
-            <label>ACS (HTTP-POST) <input type="url" name="acs" required/></label>
-            <label>SLO (HTTP-POST) <input type="url" name="slo"/></label>
-            <label><input type="checkbox" name="wantSigned" value="true"/> Require signed AuthnRequest</label>
-            <label><input type="checkbox" name="encrypt" value="true"/> Encrypt assertions (needs SP encryption cert)</label>
-            <button type="submit">Register</button>
+            <div class="grid-2">
+                <label>Entity ID
+                    <input type="url" name="entityId" required placeholder="https://app.example.com/saml/metadata"/>
+                </label>
+                <label>Display name
+                    <input type="text" name="displayName" required placeholder="Finance portal"/>
+                </label>
+                <label>ACS (HTTP-POST)
+                    <input type="url" name="acs" required placeholder="https://app.example.com/saml/acs"/>
+                </label>
+                <label>SLO (HTTP-POST)
+                    <input type="url" name="slo" placeholder="https://app.example.com/saml/slo"/>
+                </label>
+            </div>
+            <label class="field-row"><input type="checkbox" name="wantSigned" value="true"/> Require signed AuthnRequest</label>
+            <label class="field-row"><input type="checkbox" name="encrypt" value="true"/> Encrypt assertions (needs SP encryption cert)</label>
+            <button class="btn" type="submit">Register</button>
         </form>
     </section>
-    <table>
-        <thead>
-        <tr>
-            <th>Entity ID</th>
-            <th>Name</th>
-            <th>Enabled</th>
-            <th>Signed AuthnRequest</th>
-            <th>Encrypt</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="sp : ${sps}">
-            <td th:text="${sp.entityId}">https://sp</td>
-            <td th:text="${sp.displayName}">SP</td>
-            <td th:text="${sp.enabled}">true</td>
-            <td th:text="${sp.wantAuthnRequestsSigned}">false</td>
-            <td th:text="${sp.encryptAssertions}">false</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Entity ID</th>
+                <th>Name</th>
+                <th>Enabled</th>
+                <th>Signed AuthnRequest</th>
+                <th>Encrypt</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="sp : ${sps}">
+                <td class="mono" th:text="${sp.entityId}">https://sp</td>
+                <td th:text="${sp.displayName}">SP</td>
+                <td>
+                    <span class="badge badge-ok" th:if="${sp.enabled}">Enabled</span>
+                    <span class="badge badge-err" th:unless="${sp.enabled}">Disabled</span>
+                    <span th:text="${sp.enabled}" hidden="hidden">true</span>
+                </td>
+                <td th:text="${sp.wantAuthnRequestsSigned}">false</td>
+                <td th:text="${sp.encryptAssertions}">false</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </main>
 </body>
 </html>

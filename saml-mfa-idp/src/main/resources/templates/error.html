@@ -1,17 +1,33 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Something went wrong</title>
-    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+    <th:block th:replace="~{fragments/chrome :: head('Something went wrong')}"/>
 </head>
-<body>
-<main class="card">
-    <h1>Something went wrong</h1>
-    <p th:if="${status}" th:text="'HTTP ' + ${status}">HTTP error</p>
-    <p class="flash err" th:if="${message}" th:text="${message}"></p>
-    <p>Go back to <a th:href="@{/login}">sign in</a> or <a th:href="@{/account}">your account</a>.</p>
-</main>
+<body class="auth">
+<div class="auth-shell">
+    <aside class="auth-aside">
+        <div class="brand-lockup">
+            <span th:replace="~{fragments/chrome :: mark}"></span>
+            <span class="brand-text">
+                <strong>OIH Local Identity Provider</strong>
+                <span class="brand-sub">Availability</span>
+            </span>
+        </div>
+        <h2>We could not complete that request</h2>
+        <p>The identity provider blocked or failed this action. Return to sign-in and try again. If this persists, contact an administrator.</p>
+    </aside>
+    <main class="auth-main">
+        <div class="card">
+            <p class="eyebrow">Error</p>
+            <h1>Something went wrong</h1>
+            <p th:if="${status}" th:text="'HTTP ' + ${status}">HTTP error</p>
+            <p class="flash err" th:if="${message}" th:text="${message}"></p>
+            <div class="btn-row">
+                <a class="btn" th:href="@{/login}">Sign in</a>
+                <a class="btn btn-secondary" th:href="@{/account}">Your account</a>
+            </div>
+        </div>
+    </main>
+</div>
 </body>
 </html>

@@ -1,39 +1,59 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>First-run setup</title>
-    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+    <th:block th:replace="~{fragments/chrome :: head('First-run setup')}"/>
 </head>
-<body>
-<main class="card">
-    <h1>Create the first administrator</h1>
-    <p th:text="${displayName}">OIH Local Identity Provider</p>
-    <p>Use the setup token from <code>OIH_SETUP_TOKEN</code>. For the local Docker/Maven stack that token is <code>oih-local-setup</code>.</p>
-    <p class="flash err" th:if="${error}" th:text="${error}"></p>
-    <form th:action="@{/setup}" method="post">
-        <label>Setup token
-            <input type="password" name="token" required autocomplete="off"/>
-        </label>
-        <label>Username
-            <input type="text" name="username" required autocomplete="username"/>
-        </label>
-        <label>Email
-            <input type="email" name="email" required/>
-        </label>
-        <label>First name
-            <input type="text" name="firstName" required/>
-        </label>
-        <label>Last name
-            <input type="text" name="lastName" required/>
-        </label>
-        <label>Password
-            <input type="password" name="password" required autocomplete="new-password"
-                   minlength="12"/>
-        </label>
-        <button type="submit">Create administrator</button>
-    </form>
-</main>
+<body class="auth">
+<div class="auth-shell">
+    <aside class="auth-aside">
+        <div class="brand-lockup">
+            <span th:replace="~{fragments/chrome :: mark}"></span>
+            <span class="brand-text">
+                <strong th:text="${displayName}">OIH Local Identity Provider</strong>
+                <span class="brand-sub">First-run setup</span>
+            </span>
+        </div>
+        <h2>Create the first administrator</h2>
+        <p>This wizard runs once. The setup token proves you control this deployment. After this step, only signed-in administrators can create users.</p>
+        <ul class="trust-list">
+            <li>Password must be at least 12 characters</li>
+            <li>Use three character classes (upper, lower, digit or symbol)</li>
+            <li>Store the admin credentials in your secret manager</li>
+        </ul>
+    </aside>
+    <main class="auth-main">
+        <div class="card">
+            <p class="eyebrow">Bootstrap</p>
+            <h1>Create the first administrator</h1>
+            <p>Use the setup token from <code>OIH_SETUP_TOKEN</code>. For the local Docker/Maven stack that token is <code>oih-local-setup</code>.</p>
+            <p class="flash err" th:if="${error}" th:text="${error}"></p>
+            <form th:action="@{/setup}" method="post">
+                <label>Setup token
+                    <input type="password" name="token" required autocomplete="off"/>
+                </label>
+                <div class="grid-2">
+                    <label>Username
+                        <input type="text" name="username" required autocomplete="username"/>
+                    </label>
+                    <label>Email
+                        <input type="email" name="email" required/>
+                    </label>
+                    <label>First name
+                        <input type="text" name="firstName" required/>
+                    </label>
+                    <label>Last name
+                        <input type="text" name="lastName" required/>
+                    </label>
+                </div>
+                <label>Password
+                    <input type="password" name="password" required autocomplete="new-password" minlength="12"/>
+                    <span class="hint">Minimum 12 characters, three character classes.</span>
+                </label>
+                <button class="btn btn-block" type="submit">Create administrator</button>
+            </form>
+        </div>
+        <p class="legal">This form is available only while the directory has no users</p>
+    </main>
+</div>
 </body>
 </html>

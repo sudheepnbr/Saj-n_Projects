@@ -1,26 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Enroll authenticator</title>
-    <link rel="stylesheet" th:href="@{/css/idp.css}"/>
+    <th:block th:replace="~{fragments/chrome :: head('Enroll authenticator')}"/>
 </head>
-<body>
-<main class="card">
-    <h1>Enroll authenticator</h1>
-    <p>Scan this QR code, then enter a code to confirm. Recovery codes are shown once.</p>
-    <p class="flash err" th:if="${error}" th:text="${error}"></p>
-    <img th:if="${qr}" th:src="'data:image/png;base64,' + ${qr}" alt="TOTP QR"/>
-    <p><code th:text="${otpauth}">otpauth</code></p>
-    <ul>
-        <li th:each="c : ${recoveryCodes}" th:text="${c}">code</li>
-    </ul>
-    <form th:action="@{/mfa/enroll}" method="post">
-        <label>Confirmation code
-            <input type="text" name="code" inputmode="numeric" required autocomplete="one-time-code"/>
-        </label>
-        <button type="submit">Confirm</button>
-    </form>
-</main>
+<body class="auth">
+<div class="auth-shell">
+    <aside class="auth-aside">
+        <div class="brand-lockup">
+            <span th:replace="~{fragments/chrome :: mark}"></span>
+            <span class="brand-text">
+                <strong th:text="${displayName}">OIH Local Identity Provider</strong>
+                <span class="brand-sub">Authenticator enrollment</span>
+            </span>
+        </div>
+        <h2>Protect this account</h2>
+        <p>Scan the QR code with Microsoft Authenticator, Google Authenticator, or any RFC 6238 TOTP app. Recovery codes are shown once.</p>
+        <ul class="trust-list">
+            <li>Secret is wrapped with AES-256-GCM</li>
+            <li>Store recovery codes offline</li>
+            <li>Enrollment is not complete until you confirm a code</li>
+        </ul>
+    </aside>
+    <main class="auth-main">
+        <div class="card">
+            <p class="eyebrow">Enrollment</p>
+            <h1>Enroll authenticator</h1>
+            <p>Scan this QR code, then enter a code to confirm. Recovery codes are shown once.</p>
+            <p class="flash err" th:if="${error}" th:text="${error}"></p>
+            <div class="qr-frame" th:if="${qr}">
+                <img th:src="'data:image/png;base64,' + ${qr}" alt="TOTP QR"/>
+            </div>
+            <code class="otpauth" th:text="${otpauth}">otpauth</code>
+            <p class="flash warn" th:if="${recoveryCodes}">Save these recovery codes now. They will not be shown again.</p>
+            <ul class="recovery-grid" th:if="${recoveryCodes}">
+                <li th:each="c : ${recoveryCodes}" th:text="${c}">code</li>
+            </ul>
+            <form th:action="@{/mfa/enroll}" method="post">
+                <label>Confirmation code
+                    <input type="text" name="code" inputmode="numeric" required autocomplete="one-time-code" maxlength="8"/>
+                </label>
+                <button class="btn btn-block" type="submit">Confirm</button>
+            </form>
+        </div>
+        <p class="legal">Refreshing this page keeps the same secret until you confirm</p>
+    </main>
+</div>
 </body>
 </html>

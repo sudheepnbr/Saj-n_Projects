@@ -44,9 +44,12 @@ public class SecurityConfig {
         http.authenticationManager(authenticationManager)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                "/",
                                 "/css/**",
+                                "/js/**",
+                                "/favicon.svg",
+                                "/favicon.ico",
                                 "/login",
-                                "/error",
                                 "/error",
                                 "/actuator/health",
                                 "/actuator/health/**",
