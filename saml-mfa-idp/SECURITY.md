@@ -1,6 +1,6 @@
 # Security policy
 
-This repository currently contains **Phase 1 architecture and security design** for a local-identity SAML 2.0 Identity Provider. No production runtime is present yet.
+This repository contains the **InfraMindTech Identity Provider** (local-identity SAML 2.0). Architecture lives on `main`; the runnable runtime is on branch `cursor/saml-mfa-idp-phases-3-7-04b9`.
 
 ## Reporting a vulnerability
 

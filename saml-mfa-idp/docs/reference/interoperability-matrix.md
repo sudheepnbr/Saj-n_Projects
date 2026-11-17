@@ -38,6 +38,6 @@ Do not assume every Service Provider supports every option. Each SP registry row
 | SimpleSAMLphp | Broad algorithm support; useful encryption tests |
 | Shibboleth SP | Strict destination/audience; metadata-oriented |
 | Keycloak as SAML client | Convenient UI; not a runtime dependency |
-| FortiGate SSL-VPN SAML | Often wants redirect SSO + cert fingerprint; NameID as username |
+| FortiGate IPsec SAML (IKEv2+EAP) | Username from attribute `uid` (not NameID); ACS `/remote/saml/login`; see [`FORTIGATE.md`](../../../FORTIGATE.md) |
 
 Each class is a Phase 6 test target, not a v1 code dependency.

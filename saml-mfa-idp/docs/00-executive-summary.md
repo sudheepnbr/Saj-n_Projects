@@ -2,7 +2,7 @@
 
 ## Product
 
-OIH Local Identity Provider is a **local-identity-only SAML 2.0 Identity Provider**. It is designed as an enterprise identity service, not a demonstration. The first deployment may be a single instance; the architecture assumes multiple instances from day one.
+**InfraMindTech Identity Provider** is a **local-identity-only SAML 2.0 Identity Provider**. It is designed as an enterprise identity service, not a demonstration. The first deployment may be a single instance; the architecture assumes multiple instances from day one.
 
 ## Architectural recommendation
 
@@ -17,7 +17,7 @@ Build a **modular monolith**:
 
 Microservices are rejected for v1. SAML SSO, SLO, session revocation, and HSM signing share a transactional consistency model that is harder, not easier, when split across services.
 
-## Why this is Phase 1 only
+## Why architecture was specified first
 
 Custom IdP failures cluster in three places that are expensive to retrofit:
 
@@ -25,7 +25,7 @@ Custom IdP failures cluster in three places that are expensive to retrofit:
 2. **HSM abstraction** — key generation, non-extractability, certificate binding, rotation overlap.
 3. **Session architecture** — MFA-pending vs fully authenticated, IdP SSO vs per-SP sessions, distributed replay.
 
-Those three are specified here before any Java code is written.
+Those three were specified here before Java implementation. Phases 1–7 are complete on branch `cursor/saml-mfa-idp-phases-3-7-04b9`.
 
 ## Scope for v1
 

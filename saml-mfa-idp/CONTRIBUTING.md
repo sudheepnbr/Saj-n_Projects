@@ -4,13 +4,13 @@ This project is developed in gated phases. Do not skip a phase.
 
 | Phase | Status | Gate |
 | ----- | ------ | ---- |
-| 1 Architecture and threat model | In review | This pull request |
-| 2 Core identity platform | Not started | Phase 1 approved |
-| 3 HSM integration | Not started | Phase 2 accepted |
-| 4 MFA and sessions | Not started | Phase 3 accepted |
-| 5 SAML IdP | Not started | Phase 4 accepted |
-| 6 SLO and interoperability | Not started | Phase 5 accepted |
-| 7 Production readiness | Not started | Phase 6 accepted |
+| 1 Architecture and threat model | Complete | Accepted |
+| 2 Core identity platform | Complete | Phase 1 approved |
+| 3 HSM integration | Complete | Phase 2 accepted |
+| 4 MFA and sessions | Complete | Phase 3 accepted |
+| 5 SAML IdP | Complete | Phase 4 accepted |
+| 6 SLO and interoperability | Complete | Phase 5 accepted |
+| 7 Production readiness | Complete | Phase 6 accepted |
 
 ## Rules for later implementation phases
 
@@ -26,4 +26,4 @@ This project is developed in gated phases. Do not skip a phase.
 
 ## Documentation changes
 
-Architecture documents are the source of truth until Phase 2 begins. If implementation needs a different design, write an ADR first.
+Architecture documents and ADRs remain the source of truth. If implementation needs a different design, write an ADR first.
